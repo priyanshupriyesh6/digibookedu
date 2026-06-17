@@ -1,0 +1,84 @@
+[2026-06-17 15:18:57] [TEST_EVENT] [test_script@digibookedu.com (system)] Automated script verified log writing functionality
+[2026-06-17 15:19:06] [TEST_EVENT] [test_script@digibookedu.com (system)] Automated script verified log writing functionality
+[2026-06-17 15:21:20] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:21:21] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:21:33] [CLICK] [Anonymous] Clicked Sign In button in navbar
+[2026-06-17 15:21:40] [AUTH_SUCCESS] [student@digibookedu.com (student)] User logged in successfully
+[2026-06-17 15:22:03] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:22:03] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:22:10] [CLICK] [Anonymous] Clicked Sign In button in navbar
+[2026-06-17 15:22:11] [AUTH_SUCCESS] [priyanshupriyesh@gmail.com (admin)] User logged in successfully
+[2026-06-17 15:22:11] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:22:11] [ROUTE] [priyanshupriyesh@gmail.com (admin)] Navigated to portal view: "admin"
+[2026-06-17 15:22:11] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:22:14] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "users"
+[2026-06-17 15:22:15] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "courses"
+[2026-06-17 15:22:17] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "blogs"
+[2026-06-17 15:22:18] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "logs"
+[2026-06-17 15:22:29] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:22:30] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "users"
+[2026-06-17 15:22:34] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "courses"
+[2026-06-17 15:22:37] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "blogs"
+[2026-06-17 15:22:40] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "logs"
+[2026-06-17 15:22:56] [PORTAL_NAVIGATION] [Anonymous] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:22:56] [ROUTE] [Anonymous] Navigated to portal view: "admin"
+[2026-06-17 15:22:56] [PORTAL_NAVIGATION] [Anonymous] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:22:56] [ROUTE] [Anonymous] Navigated to portal view: "admin"
+[2026-06-17 15:23:00] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:37:39] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:37:39] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:40:51] [CLICK] [Anonymous] Clicked navigation link: "Courses"
+[2026-06-17 15:40:52] [CLICK] [Anonymous] Clicked navigation link: "Categories"
+[2026-06-17 15:42:45] [CLICK] [Anonymous] Clicked navigation link: "Blogs"
+[2026-06-17 15:42:45] [ROUTE] [Anonymous] Navigated to portal view: "blogs"
+[2026-06-17 15:42:57] [CLICK] [Anonymous] Clicked navigation link: "Home"
+[2026-06-17 15:42:57] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:43:17] [CLICK] [Anonymous] Clicked Sign In button in navbar
+[2026-06-17 15:43:35] [AUTH_SUCCESS] [student@digibookedu.com (student)] User logged in successfully
+[2026-06-17 15:43:48] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:43:48] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:43:49] [CLICK] [Anonymous] Clicked Sign In button in navbar
+[2026-06-17 15:44:03] [AUTH_SUCCESS] [teacher@digibookedu.com (teacher)] User logged in successfully
+[2026-06-17 15:44:03] [AUTH_SUCCESS] [teacher@digibookedu.com (teacher)] User logged in successfully
+[2026-06-17 15:44:03] [AUTH_SUCCESS] [teacher@digibookedu.com (teacher)] User logged in successfully
+[2026-06-17 15:44:03] [AUTH_SUCCESS] [student@digibookedu.com (student)] User logged in successfully
+[2026-06-17 15:44:03] [AUTH_SUCCESS] [priyanshupriyesh@gmail.com (admin)] User logged in successfully
+[2026-06-17 15:44:03] [AUTH_SUCCESS] [teacher@digibookedu.com (teacher)] User logged in successfully
+[2026-06-17 15:44:08] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:44:08] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:44:09] [CLICK] [Anonymous] Clicked Sign In button in navbar
+[2026-06-17 15:44:13] [AUTH_SUCCESS] [priyanshupriyesh@gmail.com (admin)] User logged in successfully
+[2026-06-17 15:44:13] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:44:13] [ROUTE] [priyanshupriyesh@gmail.com (admin)] Navigated to portal view: "admin"
+[2026-06-17 15:44:13] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:44:26] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "users"
+[2026-06-17 15:44:40] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "courses"
+[2026-06-17 15:44:42] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "blogs"
+[2026-06-17 15:44:44] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "logs"
+[2026-06-17 15:45:09] [ROUTE] [priyanshupriyesh@gmail.com (admin)] Navigated to portal view: "landing"
+[2026-06-17 15:45:13] [AUTH_LOGOUT] [priyanshupriyesh@gmail.com (admin)] User logged out
+[2026-06-17 15:45:35] [CLICK] [Anonymous] Clicked navigation link: "Blogs"
+[2026-06-17 15:45:35] [ROUTE] [Anonymous] Navigated to portal view: "blogs"
+[2026-06-17 15:45:40] [CLICK] [Anonymous] Clicked navigation link: "Home"
+[2026-06-17 15:45:40] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:45:44] [CLICK] [Anonymous] Clicked navigation link: "Blogs"
+[2026-06-17 15:45:44] [ROUTE] [Anonymous] Navigated to portal view: "blogs"
+[2026-06-17 15:46:04] [CLICK] [Anonymous] Clicked navigation link: "Contact"
+[2026-06-17 15:46:04] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 15:54:50] [CLICK] [Anonymous] Clicked Sign In button in navbar
+[2026-06-17 15:54:52] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 15:54:52] [AUTH_SUCCESS] [priyanshupriyesh@gmail.com (admin)] User logged in successfully
+[2026-06-17 15:54:52] [ROUTE] [priyanshupriyesh@gmail.com (admin)] Navigated to portal view: "admin"
+[2026-06-17 15:54:52] [PORTAL_NAVIGATION] [priyanshupriyesh@gmail.com (admin)] Admin switched dashboard tab to: "overview"
+[2026-06-17 16:01:18] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:01:18] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:01:22] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:01:22] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:01:39] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:01:39] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:27:15] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:27:15] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:27:43] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:27:43] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:31:32] [ROUTE] [Anonymous] Navigated to portal view: "landing"
+[2026-06-17 16:31:32] [ROUTE] [Anonymous] Navigated to portal view: "landing"
