@@ -33,20 +33,19 @@ const Hero = () => {
           </div>
 
           <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 text-balance">
-            Master the <span className="gradient-text">Future</span> of Digital Education
+            Master Cyber Defense. <span className="gradient-text">Secure Your Future.</span>
           </h1>
 
           <p ref={subtitleRef} className="text-surface-400 text-lg md:text-xl mb-10 leading-relaxed max-w-xl">
-            Industry-aligned courses in Cybersecurity, AI, Web Development & more.
-            Learn from experts with hands-on labs and immersive 3D experiences.
+            Join Meerut’s premier IT training institute. Get hands-on instruction with our elite 6-Month Diploma in Cybersecurity or Advanced Programming tracks. Built for practical learning with live corporate lab tools.
           </p>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 mb-12">
             <a href="#courses" className="btn-primary text-center">
-              Explore Courses →
+              Explore Programs
             </a>
             <a href="#contact" className="btn-secondary text-center">
-              Book Free Demo
+              Take a Free Demo
             </a>
           </div>
 

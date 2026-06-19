@@ -11,13 +11,20 @@ const StudentPortal = () => {
     setPortal,
     updateProfile,
     updatePassword,
-    logActivity
+    logActivity,
+    logout
   } = useContext(AppContext);
   
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedCourse, setSelectedCourse] = useState(courses[0]);
   const [passwordForm, setPasswordForm] = useState({ old: '', new: '', confirm: '' });
   const [passSuccess, setPassSuccess] = useState('');
+
+  useEffect(() => {
+    if (!selectedCourse && courses && courses.length > 0) {
+      setSelectedCourse(courses[0]);
+    }
+  }, [courses, selectedCourse]);
   
   // Profile settings state
   const [editName, setEditName] = useState(currentUser?.name || '');
@@ -31,12 +38,14 @@ const StudentPortal = () => {
     }
   }, [activeTab]);
 
-  if (!currentUser) {
+  if (!currentUser || (currentUser.role !== 'student' && currentUser.role !== 'admin')) {
     return (
       <div className="min-h-screen bg-surface text-white flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <p className="text-sm text-surface-300">Not authenticated. Please log in.</p>
-          <button onClick={() => setPortal('landing')} className="btn-primary !py-2 !px-4 text-xs">Go to Home Page</button>
+        <div className="text-center space-y-4 max-w-md p-6">
+          <span className="text-5xl">🚫</span>
+          <h1 className="text-xl font-bold text-danger">Access Denied</h1>
+          <p className="text-xs text-surface-300">You must be logged in as a student or administrator to view this portal.</p>
+          <button onClick={() => setPortal('landing')} className="btn-primary !py-2 !px-4 text-xs">Return to Home Page</button>
         </div>
       </div>
     );
@@ -133,10 +142,28 @@ const StudentPortal = () => {
               {item.label}
             </button>
           ))}
+          <button
+            onClick={() => {
+              setPortal('blogs');
+              if (logActivity) logActivity('CLICK', 'Clicked Study Material & Blog button from Student Portal');
+            }}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold text-accent hover:text-white hover:bg-white/5 border border-accent/20 transition-all duration-300 mt-2 text-left"
+          >
+            <span className="text-base">📚</span>
+            Study Material & Blog
+          </button>
         </nav>
 
         {/* Back to main */}
         <div className="pt-6 border-t border-surface-100/40 space-y-2">
+          {currentUser?.role === 'admin' && (
+            <button
+              onClick={() => setPortal('admin')}
+              className="w-full py-2.5 rounded-xl bg-warning/10 hover:bg-warning/20 border border-warning/20 text-warning text-xs font-bold transition-colors flex items-center justify-center gap-2"
+            >
+              👑 Admin Console
+            </button>
+          )}
           <button
             onClick={() => setPortal('landing')}
             className="w-full py-2.5 rounded-xl border border-surface-100 hover:bg-white/5 text-xs font-semibold transition-colors flex items-center justify-center gap-2"
@@ -145,8 +172,7 @@ const StudentPortal = () => {
           </button>
           <button
             onClick={() => {
-              localStorage.removeItem('digi_user');
-              window.location.reload();
+              logout();
             }}
             className="w-full py-2.5 rounded-xl bg-danger/10 hover:bg-danger/20 border border-danger/20 text-danger text-xs font-bold transition-colors flex items-center justify-center gap-2"
           >
@@ -165,8 +191,8 @@ const StudentPortal = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-primary/10 via-accent/5 to-transparent border border-surface-100/40 p-6 rounded-3xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
               <div>
-                <h1 className="text-2xl md:text-3xl font-extrabold text-white">Welcome back, {currentUser.name}! 👋</h1>
-                <p className="text-surface-300 text-sm mt-1">Check your latest lessons, timetable slots, and grading card comments.</p>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-white">Welcome to the DigiBookEdu Student Hub</h1>
+                <p className="text-surface-300 text-sm mt-1">Access your live class links, track your attendance, and review your grading cards all in one centralized place.</p>
               </div>
               <div className="bg-primary/20 border border-primary/30 px-4 py-2 rounded-2xl flex items-center gap-3">
                 <span className="text-xl">🔥</span>
@@ -267,7 +293,7 @@ const StudentPortal = () => {
                     timetable.slice(0, 2).map(slot => (
                       <div key={slot.id} className="border-b border-surface-100 last:border-0 pb-4 last:pb-0 space-y-2">
                         <span className="inline-block px-2 py-0.5 rounded-lg bg-primary/20 text-primary text-[10px] font-bold">
-                          {slot.courseTitle.split(' ')[0]}
+                          {(slot.courseTitle || 'Course').split(' ')[0]}
                         </span>
                         <h4 className="text-xs font-bold text-white leading-tight">{slot.topic}</h4>
                         <p className="text-[10px] text-surface-300 flex items-center gap-1">

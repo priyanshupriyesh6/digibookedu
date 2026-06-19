@@ -6,24 +6,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 const features = [
   {
+    icon: '🖥️',
+    title: '1:1 PC Workstation Ratio',
+    desc: 'No sharing. Each student gets a dedicated, high-performance computer for pure practical learning throughout their full term.',
+  },
+  {
+    icon: '❄️',
+    title: 'Elite AC Lab Campus',
+    desc: 'Study comfortably. Our fully air-conditioned, modern lab keeps you completely focused during intense practical coding hours.',
+  },
+  {
+    icon: '💡',
+    title: 'Digital Blackboard Learning',
+    desc: 'No boring, old-school lectures. Mentors map out live network scripts and simulate real corporate cyber attacks in real time.',
+  },
+  {
     icon: '👨‍🏫',
-    title: 'Expert Instructors',
-    desc: 'Learn from industry professionals with 10+ years of real-world experience in top MNCs.',
-  },
-  {
-    icon: '🔄',
-    title: 'Flexible Learning',
-    desc: 'Self-paced courses with lifetime access. Learn anytime, anywhere, on any device.',
-  },
-  {
-    icon: '🎓',
-    title: 'Verified Certification',
-    desc: 'Earn industry-recognized certificates that boost your resume and career prospects.',
-  },
-  {
-    icon: '🚀',
-    title: 'Career Support',
-    desc: 'Dedicated placement assistance, resume reviews, and mock interview preparation.',
+    title: 'Industry-Expert Mentors',
+    desc: 'Learn from certified, working cybersecurity specialists who bring real-world defense strategies directly into the classroom.',
   },
 ];
 
@@ -32,22 +32,24 @@ const WhyChooseUs = () => {
   const cardsRef = useRef([]);
 
   useEffect(() => {
-    gsap.fromTo(
-      cardsRef.current,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          once: true,
-        },
-      }
-    );
+    if (cardsRef.current && cardsRef.current.length > 0) {
+      gsap.fromTo(
+        cardsRef.current,
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            once: true,
+          },
+        }
+      );
+    }
   }, []);
 
   const addToRefs = (el) => {

@@ -11,7 +11,8 @@ const AdminPortal = () => {
     deleteBlogPost,
     timetable,
     fetchWithAuth,
-    logActivity
+    logActivity,
+    logout
   } = useContext(AppContext);
 
   const [activeTab, setActiveTab] = useState('overview');
@@ -222,21 +223,41 @@ const AdminPortal = () => {
 
         {/* Bottom actions */}
         <div className="pt-6 border-t border-surface-100/40 space-y-2">
+          <p className="text-[10px] text-surface-400 font-bold uppercase tracking-wider px-2">Access Dashboards</p>
           <button
-            onClick={() => setPortal('landing')}
-            className="w-full py-2.5 rounded-xl border border-surface-100 hover:bg-white/5 text-xs font-semibold transition-colors flex items-center justify-center gap-2"
+            onClick={() => setPortal('student')}
+            className="w-full py-2 rounded-xl border border-surface-100/50 hover:bg-white/5 text-[11px] font-semibold transition-colors flex items-center gap-2 px-3"
           >
-            🌐 Back to main site
+            🎓 Student Dashboard
           </button>
           <button
-            onClick={() => {
-              localStorage.removeItem('digi_token');
-              window.location.reload();
-            }}
-            className="w-full py-2.5 rounded-xl bg-danger/10 hover:bg-danger/20 border border-danger/20 text-danger text-xs font-bold transition-colors flex items-center justify-center gap-2"
+            onClick={() => setPortal('teacher')}
+            className="w-full py-2 rounded-xl border border-surface-100/50 hover:bg-white/5 text-[11px] font-semibold transition-colors flex items-center gap-2 px-3"
           >
-            🚪 Sign Out
+            👨‍🏫 Teacher Dashboard
           </button>
+          <button
+            onClick={() => setPortal('marketing')}
+            className="w-full py-2 rounded-xl border border-surface-100/50 hover:bg-white/5 text-[11px] font-semibold transition-colors flex items-center gap-2 px-3"
+          >
+            📢 Marketing Portal
+          </button>
+          <div className="pt-2 border-t border-surface-100/20 space-y-2">
+            <button
+              onClick={() => setPortal('landing')}
+              className="w-full py-2.5 rounded-xl border border-surface-100 hover:bg-white/5 text-xs font-semibold transition-colors flex items-center justify-center gap-2"
+            >
+              🌐 Back to main site
+            </button>
+            <button
+              onClick={() => {
+                logout();
+              }}
+              className="w-full py-2.5 rounded-xl bg-danger/10 hover:bg-danger/20 border border-danger/20 text-danger text-xs font-bold transition-colors flex items-center justify-center gap-2"
+            >
+              🚪 Sign Out
+            </button>
+          </div>
         </div>
       </aside>
 

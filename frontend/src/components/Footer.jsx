@@ -51,9 +51,17 @@ const Footer = () => {
             <h4 className="text-white font-semibold mb-5 text-sm uppercase tracking-wider">Navigation</h4>
             <ul className="space-y-3 text-sm">
               <li><a href="#home" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">Home</a></li>
-              <li><a href="#courses" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">Courses</a></li>
-              <li><a href="#categories" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">Categories</a></li>
-              <li><a href="#testimonials" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">Testimonials</a></li>
+              <li><a href="#about" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">About Us</a></li>
+              <li><a href="#courses" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">Our Courses</a></li>
+              <li>
+                <button 
+                  onClick={() => handlePortalLink('student')} 
+                  className="text-surface-400 hover:text-primary transition-colors text-left"
+                >
+                  Student Portal
+                </button>
+              </li>
+              <li><a href="#contact" onClick={() => setPortal('landing')} className="text-surface-400 hover:text-primary transition-colors">Contact Us</a></li>
             </ul>
           </div>
 
@@ -113,7 +121,7 @@ const Footer = () => {
       <div className="border-t border-surface-100 px-6 md:px-[10%] py-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-surface-300 text-xs">
-            © {new Date().getFullYear()} DigiBookEdu. All rights reserved. Made with ❤️ for educational excellence.
+            © 2026 DigiBookEdu. All Rights Reserved to Priyanshu Priyesh.
           </p>
 
           {/* Social Icons */}

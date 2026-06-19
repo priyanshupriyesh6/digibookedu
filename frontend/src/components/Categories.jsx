@@ -10,22 +10,24 @@ const Categories = () => {
   const cardsRef = useRef([]);
 
   useEffect(() => {
-    gsap.fromTo(
-      cardsRef.current,
-      { scale: 0.8, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'back.out(1.5)',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          once: true,
-        },
-      }
-    );
+    if (cardsRef.current && cardsRef.current.length > 0) {
+      gsap.fromTo(
+        cardsRef.current,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: 'back.out(1.5)',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            once: true,
+          },
+        }
+      );
+    }
   }, []);
 
   const addToRefs = (el) => {

@@ -119,12 +119,14 @@ const BlogsPage = () => {
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-surface-300">🔍</span>
             </div>
 
-            <button
-              onClick={() => setIsCreateOpen(true)}
-              className="btn-primary !py-2.5 !px-5 !text-xs whitespace-nowrap flex items-center gap-1.5"
-            >
-              <span>✍️</span> Publish Article
-            </button>
+            {currentUser && ['admin', 'teacher', 'marketing'].includes(currentUser.role) && (
+              <button
+                onClick={() => setIsCreateOpen(true)}
+                className="btn-primary !py-2.5 !px-5 !text-xs whitespace-nowrap flex items-center gap-1.5"
+              >
+                <span>✍️</span> Publish Article
+              </button>
+            )}
           </div>
         </div>
       </section>

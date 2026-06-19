@@ -70,43 +70,43 @@ const CTABanner = () => {
           {/* Right - Form */}
           <div className="flex-1 w-full max-w-md">
             <div className="bg-surface/40 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/10">
-              <h3 className="text-white font-semibold text-lg mb-6 text-center">Book Your Free Demo</h3>
+              <h3 className="text-white font-semibold text-lg mb-6 text-center">Have Questions? Speak to an Admissions Counselor</h3>
               <form 
                 onSubmit={(e) => {
                   e.preventDefault();
-                  alert("Demo booking request submitted successfully!");
-                  if (logActivity) logActivity('CLICK', 'Submitted Book Free Demo form');
+                  alert("Admissions callback requested!");
+                  if (logActivity) logActivity('CLICK', 'Submitted Admissions Counselor callback form');
                 }}
                 className="space-y-4"
               >
                 <input
                   type="text"
-                  placeholder="Your Name"
-                  className="input-field !bg-white/10 !border-white/20"
-                />
-                <input
-                  type="email"
-                  placeholder="Email Address"
+                  required
+                  placeholder="Full Name"
                   className="input-field !bg-white/10 !border-white/20"
                 />
                 <input
                   type="tel"
+                  required
                   placeholder="Phone Number"
                   className="input-field !bg-white/10 !border-white/20"
                 />
-                <select className="input-field !bg-white/10 !border-white/20 appearance-none">
-                  <option value="" className="bg-surface">Select Course Interest</option>
-                  <option value="cyber" className="bg-surface">Cybersecurity</option>
-                  <option value="web" className="bg-surface">Web Development</option>
-                  <option value="data" className="bg-surface">Data Science</option>
-                  <option value="ai" className="bg-surface">AI & Machine Learning</option>
-                  <option value="cloud" className="bg-surface">Cloud Computing</option>
+                <select required className="input-field !bg-white/10 !border-white/20 appearance-none">
+                  <option value="" className="bg-surface">Select Course</option>
+                  <option value="cyber" className="bg-surface">6-Month Master Diploma in Cybersecurity</option>
+                  <option value="programming" className="bg-surface">Advanced Programming & Software Engineering</option>
                 </select>
+                <textarea
+                  required
+                  placeholder="Message"
+                  rows="3"
+                  className="input-field !bg-white/10 !border-white/20"
+                />
                 <button
                   type="submit"
                   className="w-full py-3.5 rounded-xl bg-white text-primary font-bold text-sm hover:bg-white/90 transition-all duration-200 hover:-translate-y-0.5"
                 >
-                  Book Free Demo →
+                  Request Call Back
                 </button>
               </form>
             </div>

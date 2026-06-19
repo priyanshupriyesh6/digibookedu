@@ -17,12 +17,11 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'Courses', href: '#courses' },
-    { name: 'Categories', href: '#categories' },
-    { name: 'About', href: '#about' },
+    { name: 'About Us', href: '#about' },
+    { name: 'Our Courses', href: '#courses' },
+    { name: 'Student Portal', href: '#portal' },
     { name: 'Blogs', href: '#blogs' },
-    { name: 'Testimonials', href: '#testimonials' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Contact Us', href: '#contact' },
   ];
 
   const handleLogoClick = (e) => {
@@ -35,9 +34,14 @@ const Navbar = () => {
   const handleNavLinkClick = (e, link) => {
     e.preventDefault();
     if (logActivity) logActivity('CLICK', `Clicked navigation link: "${link.name}"`);
-    if (link.name === 'Blogs') {
+    if (link.name === 'Student Portal') {
+      if (currentUser) {
+        setPortal(currentUser.role);
+      } else {
+        setIsLoginOpen(true);
+      }
+    } else if (link.name === 'Blogs') {
       setPortal('blogs');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       if (portal !== 'landing') {
         setPortal('landing');
@@ -194,7 +198,7 @@ const Navbar = () => {
                     setIsLoginOpen(true);
                     if (logActivity) logActivity('CLICK', 'Clicked Sign In button in navbar');
                   }}
-                  className="text-surface-400 hover:text-white text-sm font-semibold transition-colors px-4 py-2.5"
+                  className="btn-secondary !py-2.5 !px-6 !text-xs whitespace-nowrap"
                 >
                   Sign In
                 </button>

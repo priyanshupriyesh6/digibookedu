@@ -6,7 +6,7 @@ import { AppContext } from '../context/AppContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const filters = ['All', 'Cybersecurity', 'Web Development', 'Data Science', 'AI & ML', 'Cloud Computing'];
+const filters = ['All', 'Cybersecurity', 'Programming'];
 
 const FeaturedCourses = () => {
   const { courses } = useContext(AppContext);
@@ -36,14 +36,14 @@ const FeaturedCourses = () => {
   }, []);
 
   useEffect(() => {
-    if (cardsRef.current) {
+    if (cardsRef.current && cardsRef.current.children.length > 0) {
       gsap.fromTo(
         cardsRef.current.children,
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: 'power2.out' }
       );
     }
-  }, [activeFilter]);
+  }, [activeFilter, courses.length]);
 
   return (
     <section id="courses" ref={sectionRef} className="section-padding">

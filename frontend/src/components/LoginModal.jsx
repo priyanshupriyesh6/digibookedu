@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const { login, register } = useContext(AppContext);
+  const { login, register, isAuth0Configured, loginWithRedirect, isAuth0Loading } = useContext(AppContext);
   const [isSignUp, setIsSignUp] = useState(false);
   const [activeTab, setActiveTab] = useState('student'); // 'student' or 'teacher' for login/registration
   const [name, setName] = useState('');
@@ -11,7 +11,39 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  useEffect(() => {
+    if (isOpen && isAuth0Configured) {
+      loginWithRedirect();
+    }
+  }, [isOpen, isAuth0Configured]);
+
   if (!isOpen) return null;
+
+  if (isAuth0Configured) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        {/* Backdrop */}
+        <div 
+          className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+          onClick={onClose}
+        />
+        
+        {/* Modal Card */}
+        <div className="relative w-full max-w-sm bg-surface-50/95 border border-surface-100/50 backdrop-blur-2xl rounded-3xl p-8 shadow-glow text-center space-y-4 animate-scale-up z-10">
+          <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto text-primary text-2xl animate-pulse">
+            🔐
+          </div>
+          <h2 className="text-xl font-bold text-white">Redirecting to Secure Login</h2>
+          <p className="text-xs text-surface-300 leading-relaxed">You are being securely redirected to the Auth0 authentication portal.</p>
+          <div className="flex items-center justify-center gap-1.5 pt-2">
+            <span className="w-2 h-2 rounded-full bg-primary animate-bounce [animation-delay:-0.3s]" />
+            <span className="w-2 h-2 rounded-full bg-primary animate-bounce [animation-delay:-0.15s]" />
+            <span className="w-2 h-2 rounded-full bg-primary animate-bounce" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +90,9 @@ const LoginModal = ({ isOpen, onClose }) => {
     } else if (role === 'admin') {
       testEmail = 'priyanshupriyesh@gmail.com';
       testPassword = 'Shub@140404';
+    } else if (role === 'marketing') {
+      testEmail = 'marketing@digibookedu.com';
+      testPassword = 'marketing123';
     }
 
     const res = await login(testEmail, testPassword);
@@ -233,6 +268,36 @@ const LoginModal = ({ isOpen, onClose }) => {
           </button>
         </p>
 
+        {isAuth0Configured && (
+          <div className="space-y-4 mt-6">
+            <div className="relative flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-surface-100/50" />
+              </div>
+              <span className="relative bg-surface-50/95 px-3 text-[10px] font-bold text-surface-300 uppercase tracking-wider">
+                Or authenticate via
+              </span>
+            </div>
+
+            <button
+              type="button"
+              disabled={isAuth0Loading}
+              onClick={() => loginWithRedirect()}
+              className="w-full py-3 rounded-xl bg-white text-surface hover:bg-neutral-200 font-extrabold text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] active:scale-95"
+            >
+              {isAuth0Loading ? (
+                <>
+                  <span className="animate-spin text-sm">⏳</span> Syncing Session...
+                </>
+              ) : (
+                <>
+                  <span className="text-base">🔐</span> Continue with Auth0 / SSO
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         {/* Divider */}
         <div className="relative my-6 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
@@ -243,15 +308,15 @@ const LoginModal = ({ isOpen, onClose }) => {
           </span>
         </div>
 
-        {/* Quick Logins (Student, Teacher, Admin) */}
-        <div className="grid grid-cols-3 gap-2">
+        {/* Quick Logins (Student, Teacher, Admin, Marketing) */}
+        <div className="grid grid-cols-4 gap-2">
           <button
             type="button"
             onClick={() => handleQuickLogin('student')}
             className="flex flex-col items-center justify-center p-2 rounded-2xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors group text-center"
           >
             <span className="text-xl mb-0.5 group-hover:scale-110 transition-transform">🎓</span>
-            <span className="text-white text-[10px] font-bold">Student</span>
+            <span className="text-white text-[9px] font-bold">Student</span>
           </button>
 
           <button
@@ -260,7 +325,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             className="flex flex-col items-center justify-center p-2 rounded-2xl border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-colors group text-center"
           >
             <span className="text-xl mb-0.5 group-hover:scale-110 transition-transform">👨‍🏫</span>
-            <span className="text-white text-[10px] font-bold">Teacher</span>
+            <span className="text-white text-[9px] font-bold">Teacher</span>
           </button>
 
           <button
@@ -269,7 +334,16 @@ const LoginModal = ({ isOpen, onClose }) => {
             className="flex flex-col items-center justify-center p-2 rounded-2xl border border-warning/20 bg-warning/5 hover:bg-warning/10 transition-colors group text-center"
           >
             <span className="text-xl mb-0.5 group-hover:scale-110 transition-transform">👑</span>
-            <span className="text-white text-[10px] font-bold">Admin</span>
+            <span className="text-white text-[9px] font-bold">Admin</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleQuickLogin('marketing')}
+            className="flex flex-col items-center justify-center p-2 rounded-2xl border border-success/20 bg-success/5 hover:bg-success/10 transition-colors group text-center"
+          >
+            <span className="text-xl mb-0.5 group-hover:scale-110 transition-transform">📢</span>
+            <span className="text-white text-[9px] font-bold">Marketing</span>
           </button>
         </div>
       </div>

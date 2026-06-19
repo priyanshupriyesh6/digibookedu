@@ -125,6 +125,54 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// Auth0 Callback (Register/Login exchange)
+app.post('/api/auth/auth0-callback', async (req, res) => {
+    const { email, name, avatar } = req.body;
+    if (!email) {
+        return res.status(400).json({ error: 'Please provide user email.' });
+    }
+
+    try {
+        const normalizedEmail = email.toLowerCase().trim();
+        // Check if user exists in local SQLite database
+        let user = await get('SELECT * FROM users WHERE email = ?', [normalizedEmail]);
+        
+        if (!user) {
+            // Register as default role: 'student'
+            const defaultPasswordPlaceholder = await bcrypt.hash('auth0-oauth-managed-password', 10);
+            const defaultAvatar = avatar || '🎓';
+            const defaultRole = 'student';
+            
+            const result = await run(
+                'INSERT INTO users (email, password, name, role, avatar) VALUES (?, ?, ?, ?, ?)',
+                [normalizedEmail, defaultPasswordPlaceholder, name ? name.trim() : normalizedEmail.split('@')[0], defaultRole, defaultAvatar]
+            );
+            
+            user = {
+                id: result.id,
+                email: normalizedEmail,
+                name: name ? name.trim() : normalizedEmail.split('@')[0],
+                role: defaultRole,
+                avatar: defaultAvatar
+            };
+        }
+
+        // Generate custom JWT token for Express session authorization
+        const token = jwt.sign(
+            { id: user.id, email: user.email, role: user.role, name: user.name },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.json({
+            token,
+            user: { id: user.id, email: user.email, name: user.name, role: user.role, avatar: user.avatar }
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Auth Me (Fetch Current Session)
 app.get('/api/auth/me', authenticateToken, async (req, res) => {
     try {
@@ -370,8 +418,8 @@ app.get('/api/blogs', async (req, res) => {
     }
 });
 
-// Create Blog (Teacher/Admin)
-app.post('/api/blogs', authenticateToken, requireRole(['teacher', 'admin']), async (req, res) => {
+// Create Blog (Teacher/Admin/Marketing)
+app.post('/api/blogs', authenticateToken, requireRole(['teacher', 'admin', 'marketing']), async (req, res) => {
     const { title, category, summary, content, image } = req.body;
     if (!title || !content || !summary) return res.status(400).json({ error: 'Title, summary, and content are required.' });
 
@@ -396,7 +444,12 @@ app.post('/api/blogs', authenticateToken, requireRole(['teacher', 'admin']), asy
 // Get Timetable (Public/Auth)
 app.get('/api/timetable', async (req, res) => {
     try {
-        const list = await all('SELECT * FROM timetable ORDER BY id ASC');
+        const list = await all(`
+            SELECT timetable.*, courses.title AS courseTitle 
+            FROM timetable 
+            LEFT JOIN courses ON timetable.courseId = courses.id 
+            ORDER BY timetable.id ASC
+        `);
         res.json(list);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -468,7 +521,7 @@ app.put('/api/admin/users/:id/role', authenticateToken, requireRole(['admin']), 
     const { role } = req.body;
     const { id } = req.params;
 
-    if (!['student', 'teacher', 'admin'].includes(role)) {
+    if (!['student', 'teacher', 'admin', 'marketing'].includes(role)) {
         return res.status(400).json({ error: 'Invalid role selection.' });
     }
 
@@ -496,8 +549,8 @@ app.delete('/api/admin/users/:id', authenticateToken, requireRole(['admin']), as
     }
 });
 
-// Delete Blog Post (Teacher/Admin)
-app.delete('/api/blogs/:id', authenticateToken, requireRole(['teacher', 'admin']), async (req, res) => {
+// Delete Blog Post (Teacher/Admin/Marketing)
+app.delete('/api/blogs/:id', authenticateToken, requireRole(['teacher', 'admin', 'marketing']), async (req, res) => {
     try {
         await run('DELETE FROM blogs WHERE id = ?', [req.params.id]);
         res.json({ message: 'Blog post deleted.' });

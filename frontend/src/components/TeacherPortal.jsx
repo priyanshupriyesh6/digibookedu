@@ -16,7 +16,8 @@ const TeacherPortal = () => {
     setPortal,
     updateProfile,
     updatePassword,
-    logActivity
+    logActivity,
+    logout
   } = useContext(AppContext);
 
   const [activeTab, setActiveTab] = useState('overview');
@@ -50,8 +51,8 @@ const TeacherPortal = () => {
   const [courseSuccess, setCourseSuccess] = useState('');
 
   // Progress Form State
-  const [selectedStudent, setSelectedStudent] = useState(mockStudents[0].id);
-  const [selectedCourseId, setSelectedCourseId] = useState(courses[0].id);
+  const [selectedStudent, setSelectedStudent] = useState(mockStudents[0]?.id || '');
+  const [selectedCourseId, setSelectedCourseId] = useState(courses[0]?.id || '');
   const [editPercent, setEditPercent] = useState(50);
   const [editGrade, setEditGrade] = useState('B');
   const [editRemarks, setEditRemarks] = useState('');
@@ -70,7 +71,7 @@ const TeacherPortal = () => {
 
   // Timetable Form State
   const [timetableForm, setTimetableForm] = useState({
-    courseId: courses[0].id,
+    courseId: courses[0]?.id || '',
     topic: '',
     date: '',
     time: '',
@@ -79,12 +80,27 @@ const TeacherPortal = () => {
   });
   const [timetableSuccess, setTimetableSuccess] = useState('');
 
-  if (!currentUser) {
+  useEffect(() => {
+    if (!selectedStudent && mockStudents && mockStudents.length > 0) {
+      setSelectedStudent(mockStudents[0].id);
+    }
+  }, [mockStudents, selectedStudent]);
+
+  useEffect(() => {
+    if (!selectedCourseId && courses && courses.length > 0) {
+      setSelectedCourseId(courses[0].id);
+      setTimetableForm(prev => ({ ...prev, courseId: courses[0].id }));
+    }
+  }, [courses, selectedCourseId]);
+
+  if (!currentUser || (currentUser.role !== 'teacher' && currentUser.role !== 'admin')) {
     return (
       <div className="min-h-screen bg-surface text-white flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <p className="text-sm text-surface-300">Not authenticated. Please log in.</p>
-          <button onClick={() => setPortal('landing')} className="btn-primary !py-2 !px-4 text-xs">Go to Home Page</button>
+        <div className="text-center space-y-4 max-w-md p-6">
+          <span className="text-5xl">🚫</span>
+          <h1 className="text-xl font-bold text-danger">Access Denied</h1>
+          <p className="text-xs text-surface-300">You must be logged in as an instructor or administrator to view this portal.</p>
+          <button onClick={() => setPortal('landing')} className="btn-primary !py-2 !px-4 text-xs">Return to Home Page</button>
         </div>
       </div>
     );
@@ -252,6 +268,14 @@ const TeacherPortal = () => {
 
         {/* Back to main */}
         <div className="pt-6 border-t border-surface-100/40 space-y-2">
+          {currentUser?.role === 'admin' && (
+            <button
+              onClick={() => setPortal('admin')}
+              className="w-full py-2.5 rounded-xl bg-warning/10 hover:bg-warning/20 border border-warning/20 text-warning text-xs font-bold transition-colors flex items-center justify-center gap-2"
+            >
+              👑 Admin Console
+            </button>
+          )}
           <button
             onClick={() => setPortal('landing')}
             className="w-full py-2.5 rounded-xl border border-surface-100 hover:bg-white/5 text-xs font-semibold transition-colors flex items-center justify-center gap-2"
@@ -260,8 +284,7 @@ const TeacherPortal = () => {
           </button>
           <button
             onClick={() => {
-              localStorage.removeItem('digi_user');
-              window.location.reload();
+              logout();
             }}
             className="w-full py-2.5 rounded-xl bg-danger/10 hover:bg-danger/20 border border-danger/20 text-danger text-xs font-bold transition-colors flex items-center justify-center gap-2"
           >

@@ -51,7 +51,7 @@ async function initializeDatabase() {
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             name TEXT NOT NULL,
-            role TEXT NOT NULL CHECK(role IN ('student', 'teacher', 'admin')),
+            role TEXT NOT NULL CHECK(role IN ('student', 'teacher', 'admin', 'marketing')),
             avatar TEXT
         )`);
 
@@ -140,6 +140,13 @@ async function seedDatabase() {
                 ['priyanshupriyesh@gmail.com', adminPassword, 'System Administrator', 'admin', '👑']
             );
 
+            // Seed Marketing
+            const marketingPassword = await bcrypt.hash('marketing123', 10);
+            await run(
+                'INSERT INTO users (email, password, name, role, avatar) VALUES (?, ?, ?, ?, ?)',
+                ['marketing@digibookedu.com', marketingPassword, 'Digital Marketing Team', 'marketing', '📢']
+            );
+
             // Seed Teacher
             await run(
                 'INSERT INTO users (email, password, name, role, avatar) VALUES (?, ?, ?, ?, ?)',
@@ -170,69 +177,43 @@ async function seedDatabase() {
             
             const initialCourses = [
                 {
-                    title: "Complete Cybersecurity Bootcamp",
+                    title: "6-Month Master Diploma in Cybersecurity",
                     category: "Cybersecurity",
                     instructor: "Dr. Sarah Mitchell",
                     rating: 4.9,
                     students: 12450,
                     price: 4999,
                     originalPrice: 9999,
-                    level: "Beginner",
-                    duration: "48 hours",
-                    lessons: 12,
+                    level: "Intermediate",
+                    duration: "6 months",
+                    lessons: 4,
                     image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80",
                     featured: 1,
                     modules: [
-                        { title: "Introduction to Cybersecurity Landscape", duration: "4h" },
-                        { title: "Network Security & Protocols", duration: "6h" },
-                        { title: "Linux Basics & Command Line Tools", duration: "5h" },
-                        { title: "Introduction to Penetration Testing", duration: "8h" },
-                        { title: "Cryptography & Data Protection", duration: "7h" },
-                        { title: "Incident Response & Forensics Basics", duration: "8h" }
+                        { title: "Fundamentals of Network Architecture & Protocols", duration: "12h" },
+                        { title: "Ethical Hacking & Vulnerability Assessment", duration: "16h" },
+                        { title: "Cyber Threat Intelligence & Incident Response", duration: "15h" },
+                        { title: "Digital Forensics & Corporate Compliance", duration: "18h" }
                     ]
                 },
                 {
-                    title: "Full-Stack Web Development with React",
-                    category: "Web Development",
+                    title: "Advanced Programming & Software Engineering",
+                    category: "Programming",
                     instructor: "Alex Kumar",
                     rating: 4.8,
                     students: 9800,
                     price: 3999,
                     originalPrice: 7999,
-                    level: "Intermediate",
-                    duration: "56 hours",
-                    lessons: 14,
+                    level: "Advanced",
+                    duration: "6 months",
+                    lessons: 4,
                     image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80",
                     featured: 1,
                     modules: [
-                        { title: "HTML5, CSS3, and Responsive Layouts", duration: "5h" },
-                        { title: "Modern JavaScript (ES6+)", duration: "6h" },
-                        { title: "React Basics: JSX, Props & State", duration: "8h" },
-                        { title: "State Management: Context API & Redux", duration: "10h" },
-                        { title: "Building APIs with Node.js & Express", duration: "12h" },
-                        { title: "Database Integration: MongoDB & SQL", duration: "10h" }
-                    ]
-                },
-                {
-                    title: "Data Science & Machine Learning Masterclass",
-                    category: "Data Science",
-                    instructor: "Prof. Ananya Rao",
-                    rating: 4.7,
-                    students: 8200,
-                    price: 5999,
-                    originalPrice: 11999,
-                    level: "Advanced",
-                    duration: "64 hours",
-                    lessons: 16,
-                    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
-                    featured: 1,
-                    modules: [
-                        { title: "Python for Data Analysis (Pandas & NumPy)", duration: "8h" },
-                        { title: "Data Visualization (Matplotlib & Seaborn)", duration: "6h" },
-                        { title: "Statistical Analysis & Probability Basics", duration: "10h" },
-                        { title: "Supervised Learning: Regression & Classification", duration: "12h" },
-                        { title: "Unsupervised Learning: Clustering & PCA", duration: "10h" },
-                        { title: "Introduction to Neural Networks & TensorFlow", duration: "14h" }
+                        { title: "Logic Building & Core Programming Paradig paradigms", duration: "15h" },
+                        { title: "Data Structures & Algorithmic Efficiency", duration: "18h" },
+                        { title: "Full-Stack Architecture & Database Integration", duration: "20h" },
+                        { title: "Software Development Life Cycle (SDLC) & Git", duration: "12h" }
                     ]
                 }
             ];
@@ -266,15 +247,14 @@ async function seedDatabase() {
             // Seed progress
             if (student01) {
                 await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 1, 45, "B+", "Keep working on network security labs! Great enthusiasm.")', [student01.id]);
-                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 2, 80, "A", "Excellent job on the React components and responsiveness.")', [student01.id]);
-                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 3, 15, "C", "Needs to catch up on python statistics assignments.")', [student01.id]);
+                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 2, 80, "A", "Excellent job on logic building and frontend structures.")', [student01.id]);
             }
             if (student02) {
-                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 1, 92, "A+", "Outstanding grasp of ethical hacking methodologies.")', [student02.id]);
-                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 2, 60, "B", "Good effort, but review database schema design concepts.")', [student02.id]);
+                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 1, 92, "A+", "Outstanding grasp of network defense concepts.")', [student02.id]);
+                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 2, 60, "B", "Good effort, but review database indexing strategies.")', [student02.id]);
             }
             if (student03) {
-                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 3, 75, "A-", "Solid machine learning implementation and neural network project.")', [student03.id]);
+                await run('INSERT INTO progress (userId, courseId, percent, grade, remarks) VALUES (?, 2, 75, "A-", "Solid programming implementation and software project.")', [student03.id]);
             }
             console.log('Student progress seeded.');
         }
