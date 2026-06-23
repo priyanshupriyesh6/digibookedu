@@ -53,5 +53,11 @@ export const useAuth0Wrapper = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useAuth0();
   }
-  return useContext(MockAuth0Context);
+  return {
+    user: null,
+    isAuthenticated: false,
+    isLoading: false,
+    loginWithRedirect: () => { console.log('Auth0 redirect mock called (not active on this origin)'); },
+    logout: () => { console.log('Auth0 logout mock called (not active on this origin)'); }
+  };
 };
