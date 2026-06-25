@@ -29,8 +29,21 @@ async function me(req, res, next) {
   }
 }
 
+async function clerkSync(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    const clerkToken = authHeader && authHeader.split(' ')[1];
+    const payload = req.body;
+    const authResult = await authService.clerkSync(clerkToken, payload);
+    res.json(authResult);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   register,
   login,
-  me
+  me,
+  clerkSync
 };

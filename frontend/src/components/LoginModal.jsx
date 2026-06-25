@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
+import { SignInButton, SignUpButton } from '@clerk/clerk-react';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { login, register } = useContext(AppContext);
@@ -10,6 +11,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showLocalLogin, setShowLocalLogin] = useState(false);
 
   if (!isOpen) return null;
 
@@ -82,6 +84,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     setError('');
     setSuccess('');
     setIsSignUp(false);
+    setShowLocalLogin(false);
   };
 
   return (
@@ -117,124 +120,122 @@ const LoginModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Tab Buttons (Role Selection) */}
-        <div className="grid grid-cols-2 bg-surface/50 border border-surface-100 rounded-xl p-1.5 mb-6">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('student');
-              setError('');
-            }}
-            className={`py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
-              activeTab === 'student' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'text-surface-300 hover:text-white'
-            }`}
-          >
-            🎓 Student Role
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('teacher');
-              setError('');
-            }}
-            className={`py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
-              activeTab === 'teacher' 
-                ? 'bg-accent text-surface font-bold shadow-md' 
-                : 'text-surface-300 hover:text-white'
-            }`}
-          >
-            👨‍🏫 Faculty Role
-          </button>
-        </div>
-
-        {/* Alerts */}
-        {error && (
-          <div className="mb-4 p-3 rounded-xl bg-danger/10 border border-danger/20 text-danger text-xs text-center font-semibold animate-pulse-slow">
-            ⚠️ {error}
-          </div>
-        )}
-        {success && (
-          <div className="mb-4 p-3 rounded-xl bg-success/10 border border-success/20 text-success text-xs text-center font-semibold">
-            ✓ {success}
-          </div>
-        )}
-
-        {/* Login/Signup Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {isSignUp && (
-            <div>
-              <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. John Doe"
-                className="input-field text-xs"
-              />
+        {!showLocalLogin ? (
+          <div className="space-y-4">
+            <div className="text-center text-xs text-surface-300 mb-2">
+              Sign in securely using Clerk Authentication
             </div>
-          )}
+            
+            <SignInButton mode="modal">
+              <button 
+                type="button"
+                className="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-sm transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5 flex items-center justify-center gap-2"
+              >
+                🔐 Sign In with Clerk
+              </button>
+            </SignInButton>
 
-          <div>
-            <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
-              Email Address
-            </label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={activeTab === 'student' ? 'student@digibookedu.com' : 'teacher@digibookedu.com'}
-              className="input-field text-xs"
-            />
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => setShowLocalLogin(true)}
+                className="text-xs text-accent hover:underline font-bold"
+              >
+                Or use legacy developer login →
+              </button>
+            </div>
           </div>
+        ) : (
+          <>
+            {/* Tab Buttons (Role Selection) */}
+            <div className="grid grid-cols-2 bg-surface/50 border border-surface-100 rounded-xl p-1.5 mb-6">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('student');
+                  setError('');
+                }}
+                className={`py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  activeTab === 'student' 
+                    ? 'bg-primary text-white shadow-md' 
+                    : 'text-surface-300 hover:text-white'
+                }`}
+              >
+                🎓 Student Role
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('teacher');
+                  setError('');
+                }}
+                className={`py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  activeTab === 'teacher' 
+                    ? 'bg-accent text-surface font-bold shadow-md' 
+                    : 'text-surface-300 hover:text-white'
+                }`}
+              >
+                👨‍🏫 Faculty Role
+              </button>
+            </div>
 
-          <div>
-            <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="input-field text-xs"
-            />
-          </div>
+            {/* Login/Signup Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={activeTab === 'student' ? 'student@digibookedu.com' : 'teacher@digibookedu.com'}
+                  className="input-field text-xs"
+                />
+              </div>
 
-          <button
-            type="submit"
-            className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 shadow-md ${
-              activeTab === 'student'
-                ? 'bg-primary text-white hover:shadow-glow'
-                : 'bg-accent text-surface hover:shadow-lg'
-            }`}
-          >
-            {isSignUp 
-              ? `Sign Up as ${activeTab === 'student' ? 'Student' : 'Instructor'}` 
-              : `Sign In to ${activeTab === 'student' ? 'Student' : 'Faculty'} Portal`}
-          </button>
-        </form>
+              <div>
+                <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="input-field text-xs"
+                />
+              </div>
 
-        {/* Toggle between login and registration */}
-        <p className="text-center text-xs text-surface-300 mt-4">
-          {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
-          <button 
-            type="button"
-            onClick={() => {
-              setIsSignUp(!isSignUp);
-              setError('');
-            }}
-            className="text-accent hover:underline font-bold"
-          >
-            {isSignUp ? 'Sign In' : 'Sign Up'}
-          </button>
-        </p>
+              <button
+                type="submit"
+                className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 shadow-md ${
+                  activeTab === 'student'
+                    ? 'bg-primary text-white hover:shadow-glow'
+                    : 'bg-accent text-surface hover:shadow-lg'
+                }`}
+              >
+                {`Sign In to ${activeTab === 'student' ? 'Student' : 'Faculty'} Portal`}
+              </button>
+            </form>
+
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowLocalLogin(false);
+                  setError('');
+                }}
+                className="text-xs text-accent hover:underline font-bold"
+              >
+                ← Back to Clerk authentication
+              </button>
+            </div>
+          </>
+        )}
+
 
         {/* Divider */}
         <div className="relative my-6 flex items-center justify-center">

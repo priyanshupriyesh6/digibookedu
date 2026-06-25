@@ -10,7 +10,8 @@ function buildPublicUser(user) {
     email: user.email,
     name: user.name,
     role: user.role,
-    avatar: user.avatar
+    avatar: user.avatar,
+    clerkId: user.clerkId || null
   };
 }
 
@@ -114,8 +115,82 @@ async function login(payload) {
   };
 }
 
+let clerkClient;
+try {
+  if (process.env.CLERK_SECRET_KEY) {
+    const { createClerkClient } = require('@clerk/backend');
+    clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+  }
+} catch (err) {
+  console.error('Failed to initialize Clerk client:', err.message);
+}
+
+async function clerkSync(clerkToken, payload) {
+  let email = payload.email;
+  let name = payload.name;
+  let clerkId = payload.clerkId;
+  let avatar = payload.avatar;
+
+  if (process.env.CLERK_SECRET_KEY && clerkClient) {
+    if (!clerkToken) {
+      const error = new Error('Clerk token missing');
+      error.status = 401;
+      throw error;
+    }
+    try {
+      const verified = await clerkClient.verifyToken(clerkToken);
+      clerkId = verified.sub;
+      const userRecord = await clerkClient.users.getUser(clerkId);
+      email = userRecord.emailAddresses[0]?.emailAddress;
+      name = `${userRecord.firstName || ''} ${userRecord.lastName || ''}`.trim() || userRecord.username || 'Clerk User';
+      avatar = userRecord.imageUrl;
+    } catch (err) {
+      const error = new Error(`Clerk authentication failed: ${err.message}`);
+      error.status = 401;
+      throw error;
+    }
+  } else {
+    if (!process.env.CLERK_SECRET_KEY) {
+      console.warn('WARNING: CLERK_SECRET_KEY is not defined. Skipping Clerk verification and trusting frontend payload in development mode.');
+    }
+  }
+
+  if (!email) {
+    const error = new Error('Email address is required.');
+    error.status = 400;
+    throw error;
+  }
+
+  // Look up user in MongoDB by email
+  const existingUser = await collection('users').findOne({ email: email.toLowerCase().trim() });
+  
+  if (!existingUser) {
+    const error = new Error('Your email address has not been registered on this portal. Please contact the administrator.');
+    error.status = 403;
+    throw error;
+  }
+
+  // Link Clerk ID if not already linked
+  if (existingUser.clerkId !== clerkId) {
+    await collection('users').updateOne(
+      { id: existingUser.id },
+      { $set: { clerkId } }
+    );
+    existingUser.clerkId = clerkId;
+  }
+
+  // Sign our backend JWT token
+  const token = signToken(existingUser);
+
+  return {
+    token,
+    user: buildPublicUser(existingUser)
+  };
+}
+
 module.exports = {
   register,
   login,
-  findUserById
+  findUserById,
+  clerkSync
 };

@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
+router.post('/clerk-sync', authController.clerkSync);
 router.get('/me', authenticateToken, authController.me);
 
 module.exports = router;

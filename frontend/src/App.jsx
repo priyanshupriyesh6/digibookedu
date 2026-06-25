@@ -16,7 +16,10 @@ import TeacherPortal from './components/TeacherPortal';
 import AdminPortal from './components/AdminPortal';
 import MarketingPortal from './components/MarketingPortal';
 import BlogsPage from './components/BlogsPage';
+import { ClerkProvider } from '@clerk/clerk-react';
 import './index.css';
+
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 function AppContent() {
   const { portal, logActivity } = useContext(AppContext);
@@ -91,11 +94,16 @@ function AppContent() {
 }
 
 function App() {
+  if (!CLERK_PUBLISHABLE_KEY) {
+    console.warn("Clerk Publishable Key is missing! Clerk Auth will not work.");
+  }
   return (
-    <AppProvider>
-      <AppContent />
-      <Toaster position="top-right" />
-    </AppProvider>
+    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY || ""}>
+      <AppProvider>
+        <AppContent />
+        <Toaster position="top-right" />
+      </AppProvider>
+    </ClerkProvider>
   );
 }
 

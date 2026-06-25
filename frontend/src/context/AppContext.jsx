@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useUser, useAuth } from '@clerk/clerk-react';
 
 export const AppContext = createContext();
 
@@ -17,6 +18,56 @@ export const AppProvider = ({ children }) => {
   
   // Portal View routing
   const [portal, setPortal] = useState(() => localStorage.getItem('digi_portal') || 'landing');
+
+  // Clerk authentication state hooks
+  const { isLoaded, isSignedIn, user: clerkUser } = useUser();
+  const { getToken, signOut: clerkSignOut } = useAuth();
+
+  // Sync Clerk authenticated user with backend
+  const syncClerkUser = async () => {
+    if (!isSignedIn || !clerkUser) return;
+    try {
+      const clerkToken = await getToken();
+      const res = await fetch(`${API_BASE}/api/auth/clerk-sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${clerkToken}`
+        },
+        body: JSON.stringify({
+          clerkId: clerkUser.id,
+          email: clerkUser.primaryEmailAddress?.emailAddress,
+          name: clerkUser.fullName || clerkUser.username || 'Clerk User',
+          avatar: clerkUser.imageUrl
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setToken(data.token);
+        setCurrentUser(data.user);
+        setPortal(data.user.role === 'admin' ? 'admin' : data.user.role);
+      } else {
+        console.error('Clerk sync failed:', data.error);
+        alert(data.error || 'Your account is not registered. Please contact the administrator.');
+        clerkSignOut();
+      }
+    } catch (err) {
+      console.error('Error syncing Clerk user:', err.message);
+    }
+  };
+
+  // Effect to sync Clerk user when signed in/out
+  useEffect(() => {
+    if (isLoaded) {
+      if (isSignedIn) {
+        syncClerkUser();
+      } else {
+        if (currentUser && currentUser.clerkId) {
+          logout();
+        }
+      }
+    }
+  }, [isLoaded, isSignedIn, clerkUser]);
 
   // App Datasets
   const [courses, setCourses] = useState([]);
@@ -207,6 +258,9 @@ export const AppProvider = ({ children }) => {
     setPortal('landing');
     localStorage.removeItem('digi_token');
     localStorage.setItem('digi_portal', 'landing');
+    if (isSignedIn) {
+      clerkSignOut();
+    }
   };
 
   // Profile - Update Details
