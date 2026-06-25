@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AppProvider, AppContext } from './context/AppContext';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StatsCounter from './components/StatsCounter';
@@ -93,6 +94,7 @@ function App() {
   return (
     <AppProvider>
       <AppContent />
+      <Toaster position="top-right" />
     </AppProvider>
   );
 }
