@@ -251,7 +251,7 @@ export const AppProvider = ({ children }) => {
   };
 
   // Authentication - Logout
-  const logout = () => {
+  function logout() {
     logActivity('AUTH_LOGOUT', `User logged out`);
     setToken(null);
     setCurrentUser(null);
@@ -261,7 +261,7 @@ export const AppProvider = ({ children }) => {
     if (isSignedIn) {
       clerkSignOut();
     }
-  };
+  }
 
   // Profile - Update Details
   const updateProfile = async (name, avatar) => {

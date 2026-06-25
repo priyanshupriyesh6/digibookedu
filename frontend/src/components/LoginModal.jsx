@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-import { SignInButton, SignUpButton } from '@clerk/clerk-react';
+import { SignInButton } from '@clerk/clerk-react';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const { login, register } = useContext(AppContext);
@@ -119,6 +119,18 @@ const LoginModal = ({ isOpen, onClose }) => {
             ✕
           </button>
         </div>
+
+        {/* Alerts */}
+        {error && (
+          <div className="mb-4 p-3 rounded-xl bg-danger/10 border border-danger/20 text-danger text-xs text-center font-semibold animate-pulse-slow">
+            ⚠️ {error}
+          </div>
+        )}
+        {success && (
+          <div className="mb-4 p-3 rounded-xl bg-success/10 border border-success/20 text-success text-xs text-center font-semibold">
+            ✓ {success}
+          </div>
+        )}
 
         {!showLocalLogin ? (
           <div className="space-y-4">
