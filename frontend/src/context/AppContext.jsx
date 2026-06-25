@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useAuth0Wrapper, isAuth0Active } from './auth0-wrapper';
 
 export const AppContext = createContext();
 
@@ -11,9 +10,6 @@ export const AppProvider = ({ children }) => {
     // Dynamic fallback to local IP for sharing across devices on same network
     return `http://${window.location.hostname}:5000`;
   });
-
-  const { user, isAuthenticated, isLoading: isAuth0Loading, loginWithRedirect, logout: auth0Logout } = useAuth0Wrapper();
-  const isAuth0Configured = isAuth0Active;
 
   // Authentication & Token State
   const [token, setToken] = useState(() => localStorage.getItem('digi_token') || null);
@@ -127,45 +123,6 @@ export const AppProvider = ({ children }) => {
     fetchSession();
   }, [token]);
 
-  // Auth0 User synchronization with Express/SQLite backend
-  useEffect(() => {
-    const syncAuth0User = async () => {
-      if (isAuth0Configured && isAuthenticated && user) {
-        if (!currentUser || currentUser.email !== user.email) {
-          try {
-            const response = await fetch(`${API_BASE}/api/auth/auth0-callback`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email: user.email,
-                name: user.name || user.nickname || user.email.split('@')[0],
-                avatar: user.picture || '🎓'
-              })
-            });
-            const res = await response.json();
-            if (response.ok) {
-              setToken(res.token);
-              setCurrentUser(res.user);
-              
-              const savedPortal = localStorage.getItem('digi_portal');
-              const targetPortal = res.user.role === 'admin'
-                ? (savedPortal && savedPortal !== 'landing' ? savedPortal : 'admin')
-                : res.user.role;
-              setPortal(targetPortal);
-              
-              logActivity('AUTH_SUCCESS', `User authenticated via Auth0 successfully`, res.user);
-            } else {
-              console.error('Failed to sync Auth0 user details with backend:', res.error);
-            }
-          } catch (err) {
-            console.error('Auth0 callback synchronization error:', err.message);
-          }
-        }
-      }
-    };
-    syncAuth0User();
-  }, [isAuthenticated, user, currentUser, isAuth0Configured]);
-
   // Fetch role-specific datasets once user logs in
   const loadRoleSpecificData = async () => {
     if (!currentUser) return;
@@ -250,10 +207,6 @@ export const AppProvider = ({ children }) => {
     setPortal('landing');
     localStorage.removeItem('digi_token');
     localStorage.setItem('digi_portal', 'landing');
-    
-    if (isAuth0Configured && isAuthenticated) {
-      auth0Logout({ logoutParams: { returnTo: window.location.origin } });
-    }
   };
 
   // Profile - Update Details
@@ -448,10 +401,7 @@ export const AppProvider = ({ children }) => {
       deleteBlogPost,
       addTimetableSlot,
       fetchWithAuth,
-      logActivity,
-      isAuth0Configured,
-      isAuth0Loading,
-      loginWithRedirect
+      logActivity
     }}>
       {children}
     </AppContext.Provider>
