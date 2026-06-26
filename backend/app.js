@@ -46,6 +46,16 @@ app.use('/api/users', userRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/logs', logRoutes);
 
+// Health check endpoint — used by UptimeRobot / cron-job.org to keep Render awake
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+    service: 'DigiBookEdu Backend',
+  });
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
