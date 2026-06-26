@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   // Authentication & Token State
   const [token, setToken] = useState(() => localStorage.getItem('digi_token') || null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [syncError, setSyncError] = useState(null);
   
   // Portal View routing
   const [portal, setPortal] = useState(() => localStorage.getItem('digi_portal') || 'landing');
@@ -26,8 +27,10 @@ export const AppProvider = ({ children }) => {
   // Sync Clerk authenticated user with backend
   const syncClerkUser = async () => {
     if (!isSignedIn || !clerkUser) return;
+    setSyncError(null);
     try {
       const clerkToken = await getToken();
+      console.log('Syncing Clerk user: fetching backend API base', API_BASE);
       const res = await fetch(`${API_BASE}/api/auth/clerk-sync`, {
         method: 'POST',
         headers: {
@@ -43,16 +46,19 @@ export const AppProvider = ({ children }) => {
       });
       const data = await res.json();
       if (res.ok) {
+        console.log('Backend sync successful. User:', data.user);
         setToken(data.token);
         setCurrentUser(data.user);
         setPortal(data.user.role === 'admin' ? 'admin' : data.user.role);
       } else {
-        console.error('Clerk sync failed:', data.error);
+        console.error('Clerk sync failed backend response:', data.error);
+        setSyncError(data.error || 'Your account is not registered. Please contact the administrator.');
         alert(data.error || 'Your account is not registered. Please contact the administrator.');
         clerkSignOut();
       }
     } catch (err) {
       console.error('Error syncing Clerk user:', err.message);
+      setSyncError(`Network error: ${err.message}`);
     }
   };
 
@@ -436,6 +442,8 @@ export const AppProvider = ({ children }) => {
       setPortal,
       currentUser,
       setCurrentUser,
+      syncError,
+      syncClerkUser,
       courses,
       blogs,
       timetable,

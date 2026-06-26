@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import { SignInButton } from '@clerk/clerk-react';
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const { login, register } = useContext(AppContext);
+  const { login, register, currentUser } = useContext(AppContext);
   const [isSignUp, setIsSignUp] = useState(false);
   const [activeTab, setActiveTab] = useState('student'); // 'student' or 'teacher' for login/registration
   const [name, setName] = useState('');
@@ -12,6 +12,13 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showLocalLogin, setShowLocalLogin] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      onClose();
+      resetForm();
+    }
+  }, [currentUser, onClose]);
 
   if (!isOpen) return null;
 
@@ -77,7 +84,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const resetForm = () => {
+  function resetForm() {
     setName('');
     setEmail('');
     setPassword('');
@@ -85,7 +92,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     setSuccess('');
     setIsSignUp(false);
     setShowLocalLogin(false);
-  };
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

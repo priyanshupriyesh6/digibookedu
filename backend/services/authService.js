@@ -116,10 +116,12 @@ async function login(payload) {
 }
 
 let clerkClient;
+let verifyClerkToken;
 try {
   if (process.env.CLERK_SECRET_KEY) {
-    const { createClerkClient } = require('@clerk/backend');
+    const { createClerkClient, verifyToken } = require('@clerk/backend');
     clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+    verifyClerkToken = verifyToken;
   }
 } catch (err) {
   console.error('Failed to initialize Clerk client:', err.message);
@@ -131,14 +133,14 @@ async function clerkSync(clerkToken, payload) {
   let clerkId = payload.clerkId;
   let avatar = payload.avatar;
 
-  if (process.env.CLERK_SECRET_KEY && clerkClient) {
+  if (process.env.CLERK_SECRET_KEY && clerkClient && verifyClerkToken) {
     if (!clerkToken) {
       const error = new Error('Clerk token missing');
       error.status = 401;
       throw error;
     }
     try {
-      const verified = await clerkClient.verifyToken(clerkToken);
+      const verified = await verifyClerkToken(clerkToken, { secretKey: process.env.CLERK_SECRET_KEY });
       clerkId = verified.sub;
       const userRecord = await clerkClient.users.getUser(clerkId);
       email = userRecord.emailAddresses[0]?.emailAddress;

@@ -31,6 +31,15 @@ const AdminPortal = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
+  // Create User Form State
+  const [newUserName, setNewUserName] = useState('');
+  const [newUserEmail, setNewUserEmail] = useState('');
+  const [newUserPassword, setNewUserPassword] = useState('');
+  const [newUserRole, setNewUserRole] = useState('student');
+  const [isProvisioning, setIsProvisioning] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [showNewUserPassword, setShowNewUserPassword] = useState(false);
+
   // Fetch admin dashboard details
   const fetchAdminData = async () => {
     try {
@@ -79,6 +88,51 @@ const AdminPortal = () => {
       logActivity('PORTAL_NAVIGATION', `Admin switched dashboard tab to: "${activeTab}"`);
     }
   }, [activeTab]);
+
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    if (!newUserName || !newUserEmail || !newUserPassword || !newUserRole) {
+      setErrorMsg('All fields are required.');
+      return;
+    }
+
+    setIsProvisioning(true);
+    setErrorMsg('');
+    setSuccessMsg('');
+
+    try {
+      const result = await fetchWithAuth('/api/admin/users', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: newUserName,
+          email: newUserEmail,
+          password: newUserPassword,
+          role: newUserRole
+        })
+      });
+
+      setSuccessMsg(result.message || 'User provisioned successfully.');
+      if (logActivity) {
+        logActivity('ADMIN_ACTION', `Provisioned new user account: "${newUserName}" (${newUserEmail}) with role "${newUserRole}"`);
+      }
+
+      // Clear form
+      setNewUserName('');
+      setNewUserEmail('');
+      setNewUserPassword('');
+      setNewUserRole('student');
+      setIsFormOpen(false);
+
+      // Refresh stats and user list
+      fetchAdminData();
+
+      setTimeout(() => setSuccessMsg(''), 5000);
+    } catch (err) {
+      setErrorMsg(err.message || 'Failed to provision user.');
+    } finally {
+      setIsProvisioning(false);
+    }
+  };
 
   // Handle Role Update
   const handleUpdateRole = async (userId, newRole) => {
@@ -372,12 +426,122 @@ const AdminPortal = () => {
             {/* VIEW 2: USERS REGISTRY & ROLES */}
             {activeTab === 'users' && (
               <div className="space-y-8 animate-fade-in">
-                <div>
-                  <h1 className="text-2xl md:text-3xl font-extrabold text-white flex items-center gap-3">
-                    <span>👥</span> User Accounts Registry
-                  </h1>
-                  <p className="text-surface-300 text-sm mt-1">Modify registered account credentials, toggle user access roles, or delete records.</p>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-white flex items-center gap-3">
+                      <span>👥</span> User Accounts Registry
+                    </h1>
+                    <p className="text-surface-300 text-sm mt-1">Modify registered account credentials, toggle user access roles, or delete records.</p>
+                  </div>
+                  <button
+                    onClick={() => setIsFormOpen(!isFormOpen)}
+                    className="py-2.5 px-5 text-xs font-bold flex items-center gap-2 bg-gradient-to-r from-warning to-yellow-600 text-surface rounded-xl shadow-md hover:shadow-warning/10 transition-all border border-warning/10"
+                  >
+                    <span>{isFormOpen ? '✕ Cancel' : '➕ Provision User'}</span>
+                  </button>
                 </div>
+
+                {isFormOpen && (
+                  <form onSubmit={handleCreateUser} className="glass-card p-6 border border-warning/20 relative animate-scale-up space-y-4">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-warning/5 rounded-full blur-2xl pointer-events-none" />
+                    
+                    <h3 className="text-sm font-bold text-white flex items-center gap-2 mb-2">
+                      <span>🔑</span> Provision New Account (Programmatic Clerk & DB Creation)
+                    </h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
+                          Full Name
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={newUserName}
+                          onChange={(e) => setNewUserName(e.target.value)}
+                          placeholder="e.g. John Doe"
+                          className="input-field text-xs bg-surface/50 border-surface-100/50"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          value={newUserEmail}
+                          onChange={(e) => setNewUserEmail(e.target.value)}
+                          placeholder="e.g. johndoe@gmail.com"
+                          className="input-field text-xs bg-surface/50 border-surface-100/50"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
+                          Account Password
+                        </label>
+                        <div className="relative">
+                          <input
+                            type={showNewUserPassword ? "text" : "password"}
+                            required
+                            value={newUserPassword}
+                            onChange={(e) => setNewUserPassword(e.target.value)}
+                            placeholder="Secure password"
+                            className="input-field text-xs bg-surface/50 border-surface-100/50 pr-10"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowNewUserPassword(!showNewUserPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-300 hover:text-white text-xs select-none"
+                          >
+                            {showNewUserPassword ? '👁️' : '🙈'}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-surface-300 uppercase tracking-wider mb-2">
+                          Access Role
+                        </label>
+                        <select
+                          value={newUserRole}
+                          onChange={(e) => setNewUserRole(e.target.value)}
+                          className="input-field text-xs bg-surface/50 border-surface-100/50 text-white font-bold"
+                        >
+                          <option value="student">🎓 Student Role</option>
+                          <option value="teacher">👨‍🏫 Teacher / Faculty Role</option>
+                          <option value="marketing">📢 Marketing Role</option>
+                          <option value="admin">👑 Admin Role</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsFormOpen(false)}
+                        className="btn-secondary !py-2 !px-4 !text-xs"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isProvisioning}
+                        className="btn-primary !py-2 !px-6 !text-xs bg-warning hover:bg-warning-600 text-surface font-extrabold flex items-center gap-1.5"
+                      >
+                        {isProvisioning ? (
+                          <>
+                            <span className="animate-spin">⏳</span> Provisioning...
+                          </>
+                        ) : (
+                          '✓ Create Account'
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
 
                 <div className="glass-card overflow-hidden border border-surface-100/50">
                   <div className="overflow-x-auto">

@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/logs', authenticateToken, requireRole(['admin']), adminController.getLogs);
 router.get('/users', authenticateToken, requireRole(['admin']), adminController.getUsers);
+router.post('/users', authenticateToken, requireRole(['admin']), adminController.createUser);
 router.put('/users/:id/role', authenticateToken, requireRole(['admin']), adminController.updateUserRole);
 router.delete('/users/:id', authenticateToken, requireRole(['admin']), adminController.deleteUser);
 router.get('/stats', authenticateToken, requireRole(['admin']), adminController.getStats);

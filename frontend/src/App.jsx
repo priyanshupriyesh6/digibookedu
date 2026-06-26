@@ -17,6 +17,7 @@ import AdminPortal from './components/AdminPortal';
 import MarketingPortal from './components/MarketingPortal';
 import BlogsPage from './components/BlogsPage';
 import { ClerkProvider } from '@clerk/clerk-react';
+import DiagnosticsPanel from './components/DiagnosticsPanel';
 import './index.css';
 
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -101,6 +102,7 @@ function App() {
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY || ""}>
       <AppProvider>
         <AppContent />
+        <DiagnosticsPanel />
         <Toaster position="top-right" />
       </AppProvider>
     </ClerkProvider>

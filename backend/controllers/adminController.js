@@ -48,9 +48,20 @@ async function getStats(req, res, next) {
   }
 }
 
+async function createUser(req, res, next) {
+  try {
+    const payload = req.body;
+    const result = await adminService.createUser(payload);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getLogs,
   getUsers,
+  createUser,
   updateUserRole,
   deleteUser,
   getStats
