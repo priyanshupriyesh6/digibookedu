@@ -5,8 +5,9 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [API_BASE] = useState(() => {
-    if (import.meta.env.VITE_API_BASE) {
-      return import.meta.env.VITE_API_BASE;
+    const envBase = import.meta.env.VITE_API_BASE;
+    if (envBase && envBase.trim() !== '') {
+      return envBase.trim();
     }
     // Dynamic fallback to local IP for sharing across devices on same network
     return `http://${window.location.hostname}:5000`;
