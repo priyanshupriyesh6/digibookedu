@@ -86,7 +86,7 @@ const Hero = () => {
           </div>
           <div className="absolute -bottom-4 -left-4 glass-card px-4 py-3 animate-float hidden md:block z-30" style={{ animationDelay: '2s' }}>
             <p className="text-xs text-surface-400">New Enrollment</p>
-            <p className="text-white font-semibold text-sm">+2,340 this month 🚀</p>
+            <p className="text-white font-semibold text-sm">25+ this month 🚀</p>
           </div>
         </div>
       </div>

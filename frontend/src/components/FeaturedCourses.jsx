@@ -81,12 +81,6 @@ const FeaturedCourses = () => {
         ))}
       </div>
 
-      {/* View All */}
-      <div className="text-center mt-12">
-        <button className="btn-secondary">
-          View All Courses →
-        </button>
-      </div>
     </section>
   );
 };

@@ -63,15 +63,15 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Top Info Bar */}
-      <div className="bg-primary-700 text-white text-sm py-2 px-6 md:px-[10%] hidden md:block">
+      {/* Top Info Bar - light blue */}
+      <div className="bg-sky-500 text-white text-sm py-2 px-6 md:px-[10%] hidden md:block">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-6">
             <a href="tel:+919319776904" className="flex items-center gap-2 hover:text-accent transition-colors text-xs font-semibold">
               <span>📞</span> +91 93197 76904
             </a>
-            <a href="mailto:info@digibookedu.com" className="flex items-center gap-2 hover:text-accent transition-colors text-xs font-semibold">
-              <span>✉️</span> info@digibookedu.com
+            <a href="mailto:digibookedu@gmail.com" className="flex items-center gap-2 hover:text-accent transition-colors text-xs font-semibold">
+              <span>✉️</span> digibookedu@gmail.com
             </a>
           </div>
           <div className="flex items-center gap-4 text-xs font-semibold">
@@ -86,8 +86,8 @@ const Navbar = () => {
       {/* Main Navbar */}
       <nav className={`sticky top-0 z-40 w-full transition-all duration-500 ${
         scrolled
-          ? 'bg-surface/95 backdrop-blur-xl shadow-lg shadow-primary/5 py-3'
-          : 'bg-surface-50/80 backdrop-blur-md py-5'
+          ? 'bg-sky-100/95 backdrop-blur-xl shadow-lg shadow-sky-200/40 py-3'
+          : 'bg-sky-50/90 backdrop-blur-md py-5'
       }`}>
         <div className="px-4 md:px-[6%] lg:px-[8%] xl:px-[10%] flex items-center justify-between w-full">
           {/* Logo — pinned extreme left with responsive gap */}
@@ -106,9 +106,9 @@ const Navbar = () => {
                 <button
                   key={link.name}
                   onClick={(e) => handleNavLinkClick(e, link)}
-                  className={`text-surface-400 hover:text-white text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap ${
+                  className={`text-sky-800 hover:text-sky-600 text-sm font-semibold transition-colors duration-200 relative group whitespace-nowrap ${
                     (portal === 'blogs' && link.name === 'Blogs') || (portal === 'landing' && link.name === 'Home' && window.scrollY < 100)
-                      ? '!text-accent'
+                      ? '!text-sky-600'
                       : ''
                   }`}
                 >
@@ -123,26 +123,15 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={() => setPortal('landing')}
-                className="text-surface-300 hover:text-white text-sm font-semibold transition-colors flex items-center gap-2 whitespace-nowrap"
+                className="text-sky-700 hover:text-sky-900 text-sm font-semibold transition-colors flex items-center gap-2 whitespace-nowrap"
               >
                 <span>⬅️</span> Back to Main Website
               </button>
             )}
           </div>
 
-          {/* Search + Auth Buttons — forced single row, right side with responsive gaps */}
+          {/* Auth Buttons — right side */}
           <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
-            {portal === 'landing' && (
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search courses..."
-                  className="pl-10 pr-4 py-2 rounded-xl bg-surface/50 border border-surface-100 text-xs text-white placeholder:text-surface-300 focus:outline-none focus:border-primary w-28 focus:w-40 xl:w-44 xl:focus:w-56 transition-all duration-200"
-                />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-surface-300">🔍</span>
-              </div>
-            )}
-
             {currentUser ? (
               <div className="relative">
                 <button
