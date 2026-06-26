@@ -49,7 +49,7 @@ function AppContent() {
         Chat with Us Instantly
       </div>
       <a
-        href="https://wa.me/919319778904"
+        href="https://wa.me/919319776904"
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => {

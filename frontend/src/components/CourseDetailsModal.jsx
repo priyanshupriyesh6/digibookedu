@@ -32,7 +32,7 @@ const CourseDetailsModal = ({ course, onClose }) => {
 
   // Generate WhatsApp message based on course title
   const getWhatsAppLink = () => {
-    const phone = '9319778904';
+    const phone = '9319776904';
     let message = `Hi, I am interested in the course: ${course.title}. Please provide more details.`;
 
     if (course.title.includes('CSCU') || course.title.includes('Secure Computer User')) {

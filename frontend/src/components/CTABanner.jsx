@@ -45,7 +45,7 @@ const CTABanner = () => {
             </p>
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
               <a
-                href="https://wa.me/919319778904"
+                href="https://wa.me/919319776904"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
@@ -56,13 +56,13 @@ const CTABanner = () => {
                 <span className="text-base">💬</span> Connect on WhatsApp
               </a>
               <a 
-                href="tel:+919319778904"
+                href="tel:+919319776904"
                 onClick={() => {
-                  if (logActivity) logActivity('CLICK', 'Clicked Call link: +91 93197 78904');
+                  if (logActivity) logActivity('CLICK', 'Clicked Call link: +91 93197 76904');
                 }}
                 className="text-white/80 hover:text-white text-xs font-semibold underline transition-colors"
               >
-                Or Call: +91 93197 78904
+                Or Call: +91 93197 76904
               </a>
             </div>
           </div>
