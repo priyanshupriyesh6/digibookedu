@@ -145,7 +145,7 @@ const LoginModal = ({ isOpen, onClose }) => {
               Sign in securely using Clerk Authentication
             </div>
             
-            <SignInButton mode="modal">
+            <SignInButton mode="redirect">
               <button 
                 type="button"
                 className="w-full py-3.5 bg-primary text-white rounded-xl font-bold text-sm transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5 flex items-center justify-center gap-2"
