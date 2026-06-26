@@ -32,7 +32,7 @@ const CourseDetailsModal = ({ course, onClose }) => {
 
   // Generate WhatsApp message based on course title
   const getWhatsAppLink = () => {
-    const phone = '918744013901';
+    const phone = '9319778904';
     let message = `Hi, I am interested in the course: ${course.title}. Please provide more details.`;
 
     if (course.title.includes('CSCU') || course.title.includes('Secure Computer User')) {
@@ -164,7 +164,17 @@ const CourseDetailsModal = ({ course, onClose }) => {
                       <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                         <div className="flex items-center gap-2">
                           <span className="px-2 py-0.5 rounded bg-primary/20 text-primary text-xs font-semibold">
-                            {parsed.prefix || `Module ${index + 1}`}
+                            {['Facebook', 'Twitter', 'LinkedIn', 'YouTube', 'Instagram'].map(social => (
+              <a
+                key={social}
+                href="#"
+                className="w-8 h-8 rounded-lg bg-surface-100/50 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-200"
+                title={social}
+              >
+                {/* Placeholder for logo */}
+                <img src={`${process.env.PUBLIC_URL}/assets/logos/${social.toLowerCase()}.png`} alt={social} className="w-6 h-6 object-contain" />
+              </a>
+            ))}
                           </span>
                           <h4 className="text-white font-bold text-sm md:text-base group-hover:text-primary transition-colors">
                             {parsed.title}

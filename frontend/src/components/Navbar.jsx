@@ -67,8 +67,8 @@ const Navbar = () => {
       <div className="bg-primary-700 text-white text-sm py-2 px-6 md:px-[10%] hidden md:block">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <a href="tel:+918744013901" className="flex items-center gap-2 hover:text-accent transition-colors text-xs font-semibold">
-              <span>📞</span> +91 87440 13901
+            <a href="tel:+9319778904" className="flex items-center gap-2 hover:text-accent transition-colors text-xs font-semibold">
+              <span>📞</span> +91 93197 789044
             </a>
             <a href="mailto:info@digibookedu.com" className="flex items-center gap-2 hover:text-accent transition-colors text-xs font-semibold">
               <span>✉️</span> info@digibookedu.com
