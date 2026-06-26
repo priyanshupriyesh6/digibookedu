@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import StatsCounter from './components/StatsCounter';
 import FeaturedCourses from './components/FeaturedCourses';
 import Categories from './components/Categories';
+import PromotionalBanner from './components/PromotionalBanner';
 import WhyChooseUs from './components/WhyChooseUs';
 import Testimonials from './components/Testimonials';
 import CTABanner from './components/CTABanner';
@@ -83,6 +84,7 @@ function AppContent() {
         <StatsCounter />
         <FeaturedCourses />
         <Categories />
+        <PromotionalBanner />
         <WhyChooseUs />
         <Testimonials />
         <CTABanner />

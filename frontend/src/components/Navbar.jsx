@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import LoginModal from './LoginModal';
+import logoImg from '../assets/logos/logo.png';
 
 const Navbar = () => {
   const { portal, setPortal, currentUser, logout, logActivity } = useContext(AppContext);
@@ -90,11 +91,12 @@ const Navbar = () => {
       }`}>
         <div className="px-4 md:px-[6%] lg:px-[8%] xl:px-[10%] flex items-center justify-between w-full">
           {/* Logo — pinned extreme left with responsive gap */}
-          <a href="#home" onClick={handleLogoClick} className="flex items-center gap-3 group mr-6 xl:mr-16 shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform shrink-0">
-              D
-            </div>
-            <span className="text-xl md:text-2xl font-bold gradient-text whitespace-nowrap">DigiBookEdu</span>
+          <a href="#home" onClick={handleLogoClick} className="flex items-center group mr-6 xl:mr-16 shrink-0">
+            <img 
+              src={logoImg} 
+              alt="DigiBookEdu" 
+              className="h-12 md:h-16 w-auto object-contain group-hover:scale-105 transition-transform shrink-0" 
+            />
           </a>
 
           {/* Desktop Nav Links — centred and responsive gaps */}

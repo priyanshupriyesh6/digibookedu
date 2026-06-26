@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import verticalBanner from '../assets/logos/verticalbanner.jpeg';
 
 // ─── SLIDE DATA ────────────────────────────────────────────────────────────────
-// Replace `image` with a real URL when you have photos ready.
-// e.g.  image: '/images/slide1.jpg'  or  image: 'https://...'
 const SLIDES = [
   {
     id: 1,
-    image: '',
-    badge: '🎓 New Batch Starting',
-    title: 'Learn Cybersecurity',
-    subtitle: 'From ethical hacking to network defence — hands-on labs included.',
-    accent: 'from-[#192338]/80 to-[#31487A]/60',
+    image: verticalBanner,
+    isBanner: true,
+    badge: '🎓 Academy Spotlight',
+    title: 'Certified Programs',
+    subtitle: 'Premium training with live sandboxes.',
+    accent: 'from-[#192338]/10 to-[#31487A]/20',
   },
   {
     id: 2,
-    image: '',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80',
     badge: '🤖 AI & Machine Learning',
     title: 'Build the Future with AI',
     subtitle: 'Master Python, neural networks, and real-world ML pipelines.',
@@ -22,7 +22,7 @@ const SLIDES = [
   },
   {
     id: 3,
-    image: '',
+    image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80',
     badge: '🌐 Full Stack Web Dev',
     title: 'From Zero to Full-Stack',
     subtitle: 'React, Node, databases and cloud deployment in one track.',
@@ -83,15 +83,17 @@ const HeroSlider = () => {
           <PlaceholderSlide slide={slide} />
         )}
 
-        {/* Gradient overlay — always shown */}
-        <div className={`hero-slide-overlay bg-gradient-to-br ${slide.accent}`} />
+        {/* Gradient overlay */}
+        <div className={`hero-slide-overlay bg-gradient-to-br ${slide.accent} ${slide.isBanner ? 'opacity-20' : 'opacity-70'}`} />
 
         {/* Slide content */}
-        <div className="hero-slide-content">
-          <span className="slide-badge">{slide.badge}</span>
-          <h3 className="slide-title">{slide.title}</h3>
-          <p className="slide-subtitle">{slide.subtitle}</p>
-        </div>
+        {!slide.isBanner && (
+          <div className="hero-slide-content">
+            <span className="slide-badge">{slide.badge}</span>
+            <h3 className="slide-title">{slide.title}</h3>
+            <p className="slide-subtitle">{slide.subtitle}</p>
+          </div>
+        )}
       </div>
 
       {/* ── Controls ── */}

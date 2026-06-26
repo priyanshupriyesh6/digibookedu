@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+import logoImg from '../assets/logos/logo.png';
 
 const Footer = () => {
   const { setPortal, currentUser, login } = useContext(AppContext);
@@ -21,11 +22,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg animate-float">
-                D
-              </div>
-              <span className="text-xl font-bold gradient-text">DigiBookEdu</span>
+            <div className="flex items-center mb-6">
+              <img 
+                src={logoImg} 
+                alt="DigiBookEdu" 
+                className="h-12 w-auto object-contain animate-float" 
+              />
             </div>
             <p className="text-surface-400 leading-relaxed mb-6 max-w-sm text-sm">
               Empowering learners with industry-aligned courses in Cybersecurity,

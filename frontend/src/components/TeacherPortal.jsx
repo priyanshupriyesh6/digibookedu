@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+import logoImg from '../assets/logos/logo.png';
 
 const TeacherPortal = () => {
   const {
@@ -223,11 +224,12 @@ const TeacherPortal = () => {
       {/* Portal Sidebar */}
       <aside className="w-full md:w-64 bg-surface-50 border-r border-surface-100/50 flex flex-col p-6 space-y-8 z-10 shrink-0">
         {/* Brand */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-base">
-            D
-          </div>
-          <span className="text-lg font-bold gradient-text">DigiBookEdu</span>
+        <div className="flex items-center">
+          <img 
+            src={logoImg} 
+            alt="DigiBookEdu" 
+            className="h-10 w-auto object-contain" 
+          />
         </div>
 
         {/* User Badge */}
