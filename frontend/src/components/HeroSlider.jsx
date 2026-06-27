@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import verticalBanner from '../assets/logos/verticalbanner.jpeg';
+import banner1 from '../assets/logos/1.jpeg';
+import banner2 from '../assets/logos/2.jpeg';
 
 // ─── SLIDE DATA ────────────────────────────────────────────────────────────────
 const SLIDES = [
@@ -14,19 +16,21 @@ const SLIDES = [
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80',
-    badge: '🤖 AI & Machine Learning',
-    title: 'Build the Future with AI',
-    subtitle: 'Master Python, neural networks, and real-world ML pipelines.',
-    accent: 'from-[#1E2E4F]/80 to-[#8FB3E2]/50',
+    image: banner1,
+    isBanner: true,
+    badge: '🔒 Cyber Expert',
+    title: 'Learn, Practice, Defend',
+    subtitle: 'Become a certified Cybersecurity Expert.',
+    accent: 'from-[#192338]/10 to-[#31487A]/20',
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80',
-    badge: '🌐 Full Stack Web Dev',
-    title: 'From Zero to Full-Stack',
-    subtitle: 'React, Node, databases and cloud deployment in one track.',
-    accent: 'from-[#31487A]/80 to-[#192338]/60',
+    image: banner2,
+    isBanner: true,
+    badge: '🚀 Path to Success',
+    title: 'Learn Today, Lead Tomorrow',
+    subtitle: 'Practical learning to transform your career.',
+    accent: 'from-[#192338]/10 to-[#31487A]/20',
   },
 ];
 
