@@ -23,7 +23,20 @@ import './index.css';
 const getClerkKey = () => {
   const envKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
   const hostname = window.location.hostname;
-  const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.');
+  
+  // Robust check for local hostnames and private network IP ranges
+  let isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.local');
+  if (!isLocal) {
+    const parts = hostname.split('.');
+    if (parts.length === 4) {
+      const first = parseInt(parts[0], 10);
+      const second = parseInt(parts[1], 10);
+      if (first === 10) isLocal = true;
+      if (first === 192 && second === 168) isLocal = true;
+      if (first === 172 && second >= 16 && second <= 31) isLocal = true;
+      if (first === 127) isLocal = true;
+    }
+  }
   
   if (isLocal) {
     if (envKey && envKey.startsWith('pk_test_')) {
