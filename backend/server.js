@@ -1,7 +1,13 @@
+const fs = require('fs');
 const path = require('path');
-// Load .env only in local dev (Render injects env vars automatically)
+// Load appropriate env file in local dev (Render injects env vars automatically)
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: path.join(__dirname, '.env') });
+  const devEnvPath = path.join(__dirname, '.env.development');
+  if (fs.existsSync(devEnvPath)) {
+    require('dotenv').config({ path: devEnvPath });
+  } else {
+    require('dotenv').config({ path: path.join(__dirname, '.env') });
+  }
 }
 const { connectDB } = require('./db');
 const app = require('./app');

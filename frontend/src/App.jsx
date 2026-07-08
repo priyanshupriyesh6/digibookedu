@@ -20,7 +20,21 @@ import { ClerkProvider } from '@clerk/clerk-react';
 import DiagnosticsPanel from './components/DiagnosticsPanel';
 import './index.css';
 
-const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const getClerkKey = () => {
+  const envKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const hostname = window.location.hostname;
+  const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.');
+  
+  if (isLocal) {
+    if (envKey && envKey.startsWith('pk_test_')) {
+      return envKey;
+    }
+    return 'pk_test_ZXhjaXRlZC1nYXRvci05OS5jbGVyay5hY2NvdW50cy5kZXYk';
+  }
+  return envKey || "";
+};
+
+const CLERK_PUBLISHABLE_KEY = getClerkKey();
 
 function AppContent() {
   const { portal, logActivity } = useContext(AppContext);
