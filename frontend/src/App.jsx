@@ -38,13 +38,12 @@ const getClerkKey = () => {
     }
   }
   
-  if (isLocal) {
-    if (envKey && envKey.startsWith('pk_test_')) {
-      return envKey;
-    }
-    return 'pk_test_ZXhjaXRlZC1nYXRvci05OS5jbGVyay5hY2NvdW50cy5kZXYk';
-  }
-  return envKey || "";
+  const keyToUse = isLocal 
+    ? (envKey && envKey.startsWith('pk_test_') ? envKey : 'pk_test_ZXhjaXRlZC1nYXRvci05OS5jbGVyay5hY2NvdW50cy5kZXYk')
+    : (envKey || "");
+  
+  console.log(`[Clerk Auth Debug] Hostname: ${hostname} | isLocal: ${isLocal} | Key Selected: ${keyToUse.substring(0, 15)}...`);
+  return keyToUse;
 };
 
 const CLERK_PUBLISHABLE_KEY = getClerkKey();
