@@ -93,8 +93,13 @@ const CTABanner = () => {
                 />
                 <select required className="input-field !bg-white/10 !border-white/20 appearance-none">
                   <option value="" className="bg-surface">Select Course</option>
-                  <option value="cyber" className="bg-surface">6-Month Master Diploma in Cybersecurity</option>
-                  <option value="programming" className="bg-surface">Advanced Programming & Software Engineering</option>
+                  <option value="ceh-pro" className="bg-surface">CEH v12 Pro Course</option>
+                  <option value="chfi" className="bg-surface">CHFI (Computer Hacking Forensic Investigator)</option>
+                  <option value="python" className="bg-surface">Python Learning Program</option>
+                  <option value="ceh-theory" className="bg-surface">Certified Ethical Hacker (CEHv12) — Theory Masterclass</option>
+                  <option value="ceh-basic" className="bg-surface">CEH V12 Basic course</option>
+                  <option value="ceh-library" className="bg-surface">CEH Premium Reference Library</option>
+                  <option value="ai-predictive" className="bg-surface">Artificial Intelligence & Predictive Engineering</option>
                 </select>
                 <textarea
                   required

@@ -37,7 +37,7 @@ const Hero = () => {
           </h1>
 
           <p ref={subtitleRef} className="text-surface-400 text-lg md:text-xl mb-10 leading-relaxed max-w-xl">
-            Join Meerut’s premier IT training institute. Get hands-on instruction with our elite 6-Month Diploma in Cybersecurity or Advanced Programming tracks. Built for practical learning with live corporate lab tools.
+            Join Meerut’s premier IT training institute. Get hands-on instruction with our elite CEH v12 Pro or CHFI tracks. Built for practical learning with live corporate lab tools.
           </p>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -59,7 +59,7 @@ const Hero = () => {
                 ))}
               </div>
               <div>
-                <p className="text-white font-semibold text-sm">15,000+</p>
+                <p className="text-white font-semibold text-sm">200+</p>
                 <p className="text-surface-300 text-xs">Active Learners</p>
               </div>
             </div>
@@ -70,7 +70,7 @@ const Hero = () => {
             </div>
             <div className="h-8 w-px bg-surface-100" />
             <div>
-              <p className="text-white font-semibold text-sm">200+</p>
+              <p className="text-white font-semibold text-sm">5+</p>
               <p className="text-surface-300 text-xs">Courses Available</p>
             </div>
           </div>

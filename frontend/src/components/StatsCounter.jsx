@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { label: 'Active Learners', value: '20+', icon: '🎓' },
+  { label: 'Active Learners', value: '200+', icon: '🎓' },
   { label: 'New Enrollments', value: '25+', icon: '📚' },
   { label: 'Certified Instructors', value: '5+', icon: '👨‍🏫' },
   { label: 'Success Rate', value: '90%', icon: '🏆' },

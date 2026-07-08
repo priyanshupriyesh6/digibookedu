@@ -25,7 +25,14 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
+    // Allow all local loopbacks and dev ports in development
+    if (process.env.NODE_ENV !== 'production') {
+      if (!origin || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:') || /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/.test(origin)) {
+        callback(null, true);
+        return;
+      }
+    }
+    // Standard production origin check
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {

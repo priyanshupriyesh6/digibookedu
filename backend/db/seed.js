@@ -43,94 +43,181 @@ async function seedUsers() {
 async function seedCoursesAndModules() {
   const courses = collection('courses');
   const modules = collection('modules');
-  const count = await courses.countDocuments();
-  if (count > 0) return;
+
+  // Clear existing courses & modules so changes are always synchronized on start
+  await courses.deleteMany({});
+  await modules.deleteMany({});
+  
+  // Reset counters to start IDs from 1
+  await collection('counters').updateOne({ _id: 'courses' }, { $set: { seq: 0 } }, { upsert: true });
+  await collection('counters').updateOne({ _id: 'modules' }, { $set: { seq: 0 } }, { upsert: true });
 
   console.log('Seeding courses and modules...');
 
   const initialCourses = [
     {
-      title: '6-Month Master Diploma in Cybersecurity',
+      title: 'CEH v12 Pro Course',
       category: 'Cybersecurity',
-      instructor: 'Dr. Sarah Mitchell',
+      instructor: 'Alex Kumar',
       rating: 4.9,
       students: 12450,
-      price: 4999,
-      originalPrice: 9999,
-      level: 'Intermediate',
-      duration: '6 months',
+      price: 25000,
+      originalPrice: 45000,
+      level: 'Advanced',
+      duration: '40 hours (2 months)',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80',
+      image: '/CHEv12pro.jpeg',
       featured: 1,
-      segment: 'Core Cyber Security & Data Privacy',
+      segment: 'Advanced Ethical Hacking & Penetration Testing',
       interactiveElement: 'Active Threat Scenario Sandbox',
       actionTrigger: 'Enroll & Claim Lab Pass via WhatsApp',
-      overview: 'Fundamentals of Network Security, Corporate Compliance, Ethical Hacking, Incident Response.',
-      headline: 'Secure Your Career. Harden Your Infrastructure.',
-      subtext: 'Learn how to defend large scale networks and protect digital assets.',
-      outcomes: 'Graduates leave with seasoned skills to manage cyber threats.',
-      careerMilestone: 'Prepared for junior cybersecurity analyst roles.',
+      overview: 'Master professional ethical hacking with advanced penetration testing methodologies, enterprise security assessments, and real-world attack simulations. Build the skills required to identify, exploit, and secure modern infrastructures using industry-standard tools and techniques. The CEH curriculum covers the full ethical hacking lifecycle, from reconnaissance through reporting, with extensive hands-on practice.',
+      headline: 'Advanced Hacking. Professional Penetration Testing.',
+      subtext: 'Learn to exploit and secure modern infrastructure with hands-on practice.',
+      outcomes: 'Graduates leave with seasoned skills to manage cyber threats and penetration test systems.',
+      careerMilestone: 'Prepared for penetration tester and security analyst roles.',
+      highlights: [
+        'Advanced Network Penetration Testing',
+        'Active Directory Security Assessment',
+        'Web Application Exploitation',
+        'Wireless & Cloud Security',
+        'Privilege Escalation Techniques',
+        'Malware & Ransomware Analysis',
+        'Vulnerability Assessment'
+      ],
+      tools: [
+        'Nmap',
+        'Metasploit Framework',
+        'SQLmap',
+        'Linux Security Tools'
+      ],
+      skills: [
+        'Advanced Reconnaissance',
+        'AD Exploitation',
+        'Web & Wireless Security',
+        'Privilege Escalation',
+        'Malware Analysis',
+        'Remediation Reporting'
+      ],
       modules: [
-        { title: 'Fundamentals of Network Architecture & Protocols', duration: '12h' },
-        { title: 'Ethical Hacking & Vulnerability Assessment', duration: '16h' },
-        { title: 'Cyber Threat Intelligence & Incident Response', duration: '15h' },
-        { title: 'Digital Forensics & Corporate Compliance', duration: '18h' }
+        { title: 'Module 1: Advanced Network & Active Directory Security: Exploiting domain controllers, routing table manipulations, and AD privilege escalations.', duration: '10h' },
+        { title: 'Module 2: Web Application & Wireless Exploitation: Bypassing WAFs, exploiting injection queries, and hijacking wireless traffic.', duration: '10h' },
+        { title: 'Module 3: Privilege Escalation & Malware Analysis: Elevating root access on Linux/Windows hosts and inspecting ransomware binaries.', duration: '10h' },
+        { title: 'Module 4: Vulnerability Assessment & Penetration Testing: Running network audits, building compliance checks, and writing professional reports.', duration: '10h' }
       ]
     },
     {
-      title: 'Advanced Programming & Software Engineering',
-      category: 'Programming',
+      title: 'CHFI (Computer hacking forensic investigator)',
+      category: 'Cybersecurity',
       instructor: 'Alex Kumar',
       rating: 4.8,
       students: 9800,
-      price: 3999,
-      originalPrice: 7999,
+      price: 42000,
+      originalPrice: 75000,
       level: 'Advanced',
-      duration: '6 months',
+      duration: '40 Hours (2 Months)',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80',
+      image: '/CHFI.jpeg',
       featured: 1,
-      segment: 'Advanced Software Engineering',
-      interactiveElement: 'Live Interactive Coding Workspace',
-      actionTrigger: 'Enroll & Access Coding Labs via WhatsApp',
-      overview: 'Logic Building, Algorithmic Analysis, Full-Stack Databases, System Architecture.',
-      headline: 'Code Like a Pro. Architect Systems Like a Veteran.',
-      subtext: 'Master intermediate algorithms and build production-grade fullstack web applications.',
-      outcomes: 'Students build a professional developer portfolio.',
-      careerMilestone: 'Prepared for fullstack software engineer roles.',
+      segment: 'Digital Forensics & Incident Response',
+      interactiveElement: 'Forensic Lab Sandbox & Disk Analyst',
+      actionTrigger: 'Enroll & Claim Lab Pass via WhatsApp',
+      overview: 'Become a digital forensics specialist by learning how to investigate cyber incidents, recover digital evidence, analyze compromised systems, and prepare legally admissible forensic reports. The CHFI program follows a structured investigation methodology covering evidence acquisition, preservation, analysis, and reporting across Windows, Linux, cloud, mobile, and network environments.',
+      headline: 'Investigate Breaches. Recover Evidence. Master Cyber Forensics.',
+      subtext: 'Learn structured investigation protocols, disk forensics, and memory analysis.',
+      outcomes: 'Become an audit-ready cybercrime investigator and digital evidence specialist.',
+      careerMilestone: 'Qualifies for high-paying Digital Forensics Specialist and Incident Responder roles.',
+      highlights: [
+        'Digital Evidence Collection',
+        'Incident Response & Investigation',
+        'Windows & Linux Forensics',
+        'Network Forensics',
+        'Mobile Device Forensics'
+      ],
+      tools: [
+        'Autopsy',
+        'FTK Imager',
+        'EnCase',
+        'Volatility',
+        'Wireshark'
+      ],
+      skills: [
+        'Digital Evidence Acquisition',
+        'Chain of Custody Management',
+        'Disk & Memory Forensics',
+        'Malware Investigation',
+        'Log Analysis',
+        'Incident Response',
+        'Cybercrime Investigation',
+        'Professional Investigation Reporting'
+      ],
       modules: [
-        { title: 'Logic Building & Core Programming Paradigms', duration: '15h' },
-        { title: 'Data Structures & Algorithmic Efficiency', duration: '18h' },
-        { title: 'Full-Stack Architecture & Database Integration', duration: '20h' },
-        { title: 'Software Development Life Cycle (SDLC) & Git', duration: '12h' }
+        { title: 'Module 1: Digital Evidence Collection & Chain of Custody: Implementing legally admissible evidence collection techniques and tracking logs.', duration: '10h' },
+        { title: 'Module 2: Windows & Linux Forensics: Extracting registry details, system logs, and temporal metadata files.', duration: '10h' },
+        { title: 'Module 3: Disk, Memory, and Network Forensics: Scanning system RAM buffers, analyzing packet dumps, and reconstructing incident scenes.', duration: '10h' },
+        { title: 'Module 4: Mobile Device Forensics & Incident Response: Reconstructing chat logs, app history, and formulating reactive incident response protocols.', duration: '10h' }
       ]
     },
     {
-      title: 'Certified Secure Computer User (CSCU)',
-      category: 'Cybersecurity',
-      instructor: 'Dr. Sarah Mitchell',
+      title: 'Python Learning Program',
+      category: 'Programming',
+      instructor: 'Alex Kumar',
       rating: 4.8,
       students: 1540,
-      price: 4999,
-      originalPrice: 9999,
+      price: 15000,
+      originalPrice: 28000,
       level: 'Beginner',
-      duration: '4 Weeks',
+      duration: '30 Hours',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80',
+      image: '/python.jpeg',
       featured: 1,
-      segment: 'Core Cyber Security & Data Privacy',
-      interactiveElement: 'Active Threat Scenario Sandbox',
-      actionTrigger: 'Enroll & Claim Lab Pass via WhatsApp',
-      overview: 'In an era where data breaches, financial fraud, and identity theft occur every second, digital literacy is no longer just about operating software—it is about tactical survival. The Certified Secure Computer User (CSCU) program is an operational masterclass designed to take individuals with zero security background and turn them into highly resilient digital asset protectors. This program addresses the critical vulnerability gap found in most modern professionals: a lack of awareness regarding sophisticated social engineering, complex malware variations, and data encryption liabilities. Students do not just learn theoretical safety concepts; they actively work with defensive tools to identify vulnerabilities, configure secure networks, and insulate both personal and enterprise infrastructure from malicious actors.',
-      headline: 'Protect Your Identity. Secure Your Enterprise. Master the Fundamentals of Digital Defense.',
-      subtext: 'A practical, hands-on certification program designed to neutralize modern cyber threats, ransomware, and identity scams before they hit your network.',
-      outcomes: 'Upon completion of this module, the student transitions from a vulnerable web user to an audit-ready security asset. They leave with a personalized, hardened security blueprint implemented across their own devices.',
-      careerMilestone: 'Graduates are fully prepared to take the global CSCU examination and possess the baseline credentials required for corporate technical support, administrative data management, and junior network asset monitoring roles.',
+      segment: 'Core Software Engineering & Scripts',
+      interactiveElement: 'Interactive Coding Console',
+      actionTrigger: 'Enroll & Access Coding Labs via WhatsApp',
+      overview: 'Master Python programming from scratch. This comprehensive course covers Python fundamentals, object-oriented programming (OOP), file handling, APIs, and automation. Build real-world projects and scripts to automate daily tasks, integrate third-party APIs, and prepare for future AI & Machine Learning paths.',
+      headline: 'Code in Python. Automate Workflows. Build Real Projects.',
+      subtext: 'A structured, beginner-friendly coding bootcamp covering fundamentals to API integrations.',
+      outcomes: 'Students write clean Python code, develop automation scripts, and integrate APIs.',
+      careerMilestone: 'Prepares for junior developer, automation tester, and data analyst tracks.',
+      highlights: [
+        'Python Fundamentals',
+        'Variables, Loops & Functions',
+        'Object-Oriented Programming (OOP)',
+        'File Handling',
+        'Exception Handling',
+        'Modules & Packages',
+        'Data Structures',
+        'APIs & JSON',
+        'Automation with Python',
+        'Mini Real-World Projects'
+      ],
+      tools: [
+        'Python 3',
+        'Visual Studio Code',
+        'Github & Git'
+      ],
+      skills: [
+        'Python Programming',
+        'Problem Solving',
+        'Software Development Fundamentals',
+        'Automation Scripting',
+        'API Integration',
+        'Data Manipulation',
+        'Debugging Techniques',
+        'Project Development'
+      ],
+      idealFor: [
+        'Complete Beginners',
+        'School & College Students',
+        'Working Professionals',
+        'Future AI & ML Engineers',
+        'Cybersecurity Aspirants'
+      ],
       modules: [
-        { title: 'Module 1: The Modern Threat Landscape & Social Engineering: Identifying phishing hooks, email spoofing, and advanced human-hacking manipulation tactics.', duration: '6h' },
-        { title: 'Module 2: Operating System Hardening & Patch Management: Configuring local firewalls, secure user accounts, and continuous automated backup architectures.', duration: '8h' },
-        { title: 'Module 3: Network, Wireless, and Cloud Security: Securing home and office Wi-Fi routers, identifying rogue access points, and safely managing cloud storage spaces.', duration: '7h' },
-        { title: 'Module 4: Mobile and IoT Device Insulation: Securing smartphones, smart home devices, and tablets against remote data extractions.', duration: '5h' }
+        { title: 'Module 1: Python Fundamentals & Data Structures: Variables, conditionals, loops, functions, lists, dictionaries, and tuples.', duration: '8h' },
+        { title: 'Module 2: Object-Oriented Programming (OOP) & File Handling: Structuring classes, inheritance, handling text/JSON files, and exception blocks.', duration: '8h' },
+        { title: 'Module 3: APIs, JSON, and Modules: Integrating third-party APIs, querying rest endpoints, and utilizing pip packages.', duration: '7h' },
+        { title: 'Module 4: Automation Scripting & Real-World Projects: Writing directory scripts, scraping web elements, and deploying mini projects.', duration: '7h' }
       ]
     },
     {
@@ -144,16 +231,33 @@ async function seedCoursesAndModules() {
       level: 'Intermediate',
       duration: '8 Weeks',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80',
+      image: '/CEH.jpeg',
       featured: 1,
       segment: 'Advanced Ethical Hacking & Offensive Security',
       interactiveElement: 'Restricted Gated Brochure Intake UI',
       actionTrigger: 'Access Full CEHv12 Resource Syllabus via WhatsApp',
-      overview: 'To defeat a hacker, you must be able to think, navigate, and strike exactly like one. The Certified Ethical Hacker (CEHv12) Theory Masterclass is an exhaustive dive into the structural mechanics of modern offensive security. This program systematically breaks down the entire 20-module global standard framework of ethical hacking, guiding students from structural network footprinting right through to advanced system exploitation and cryptography paradigms. Rather than memorizing abstract concepts, students study the deep logical frameworks behind how networks break, how firewalls are bypassed, and how enterprise architectures are compromised. This forms the absolute baseline of knowledge required by elite penetration testing professionals and global information security analysts.',
+      overview: 'To defeat a hacker, you must be able to think, navigate, and strike exactly like one. The Certified Ethical Hacker (CEHv12) Theory Masterclass is an exhaustive dive into the structural mechanics of modern offensive security. This program systematically breaks down the entire 20-module global standard framework of ethical hacking, guiding students from structural network footprinting right through to advanced system exploitation and cryptography paradigms.',
       headline: 'Think Like a Threat Actor. Architect Defense Like an Expert. Welcome to CEHv12.',
       subtext: 'Master the 20 core domains of the world\'s premier offensive security blueprint and prepare to claim your place among the global elite.',
-      outcomes: 'The student completes this masterclass possessing an elite vocabulary and an advanced theoretical mapping of all 20 security domains. They can walk into any corporate setting and dissect exactly how a network breach occurred.',
+      outcomes: 'The student completes this masterclass possessing an elite vocabulary and an advanced theoretical mapping of all 20 security domains.',
       careerMilestone: 'This masterclass directly opens the doors to high-paying specialized roles, satisfying the foundational knowledge required for positions such as Information Security Analyst, Incident Responder, and Enterprise Cyber Defense Auditor.',
+      highlights: [
+        'Ethical Hacking Fundamentals',
+        'Footprinting & OSINT',
+        'Network Scanning & Enumeration',
+        'Vulnerability Assessment',
+        'System Hacking Concepts',
+        'Malware Analysis'
+      ],
+      skills: [
+        'Network Reconnaissance',
+        'Vulnerability Identification',
+        'Security Assessment',
+        'Linux & Windows Security Basics',
+        'Ethical Hacking Methodology',
+        'Cyber Defense Concepts',
+        'Professional Reporting'
+      ],
       modules: [
         { title: 'Module 1: Footprinting, Reconnaissance, and Perimeter Scanning: Utilizing open-source intelligence (OSINT) to map out an enterprise target profile.', duration: '12h' },
         { title: 'Module 2: Vulnerability Analysis & System Hacking: Locating system weaknesses, bypassing authentication systems, and gaining deep root privileges.', duration: '15h' },
@@ -162,30 +266,47 @@ async function seedCoursesAndModules() {
       ]
     },
     {
-      title: 'CEHv12 Practical Application & Live Lab Blueprint',
+      title: 'CEH V12 Basic course',
       category: 'Cybersecurity',
       instructor: 'Alex Kumar',
       rating: 4.9,
       students: 2180,
-      price: 9999,
-      originalPrice: 19999,
-      level: 'Advanced',
-      duration: '6 Weeks',
+      price: 25000,
+      originalPrice: 45000,
+      level: 'Intermediate',
+      duration: '40 hours ( 2 months )',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1601597111158-2fceff270190?auto=format&fit=crop&w=600&q=80',
+      image: '/CEHv12basic.jpeg',
       featured: 1,
       segment: 'Hands-On Penetration Testing & Lab Simulation',
       interactiveElement: '1:1 Physical Lab Allocation System',
       actionTrigger: 'Reserve Live Workstation Seat via WhatsApp',
-      overview: 'Cyber security is not a spectator sport. You cannot learn to defend a network by looking at slides or reading code from a textbook. The CEHv12 Practical Application & Live Lab Blueprint is an immersive, 100% hands-on laboratory environment where students spend every hour configuring, attacking, and defending real software systems. Operating from our physical facility, each student is allocated a dedicated 1:1 hardware workstation loaded with over 600 official security utilities inside a completely controlled sandbox environment. Under the direct supervision of elite technical mentors, students actively launch real attacks, intercept network traffic, execute brute-force operations, and isolate active malware infections to learn the reality of technical security operations.',
+      overview: 'Learn the fundamentals of ethical hacking and cybersecurity through the globally recognized CEH methodology. Build a strong understanding of how attackers think, discover vulnerabilities, and secure modern systems using industry-standard tools and techniques.',
       headline: 'Zero Lectures. Pure Execution. Enter the Live Threat Simulation Sandbox.',
       subtext: 'Claim your dedicated 1:1 hardware workstation. Work with over 600 professional security tools to attack and defend real infrastructure.',
       outcomes: 'The student walks out with seasoned, hands-on technical competence. They can sit down at any terminal, fire up a Linux utility, run a deep network audit, and instantly deliver a professional threat remediation report.',
       careerMilestone: 'This deep practical training qualifies graduates to immediately step into high-demand technical roles such as Penetration Tester, Security Engineer, Vulnerability Assessor, and active SOC (Security Operations Center) L1 Analyst.',
+      highlights: [
+        'Ethical Hacking Fundamentals',
+        'Footprinting & OSINT',
+        'Network Scanning & Enumeration',
+        'Vulnerability Assessment',
+        'System Hacking Concepts',
+        'Malware Analysis'
+      ],
+      skills: [
+        'Network Reconnaissance',
+        'Vulnerability Identification',
+        'Security Assessment',
+        'Linux & Windows Security Basics',
+        'Ethical Hacking Methodology',
+        'Cyber Defense Concepts',
+        'Professional Reporting'
+      ],
       modules: [
         { title: 'Module 1: Live Network Sniffing & Traffic Dissection: Intercepting live data packets using Wireshark and analyzing cleartext credentials across networks.', duration: '10h' },
-        { title: 'Module 2: Active Penetration Testing & Exploit Generation: Writing and deploying structural payloads inside test servers using the Metasploit Framework.', duration: '14h' },
-        { title: 'Module 3: Automated Password Cracking & Cryptographic Auditing: Using brute-force, dictionary attacks, and rainbow tables to expose weak authorization points.', duration: '12h' },
+        { title: 'Module 2: Active Penetration Testing & Exploit Generation: Writing and deploying structural payloads inside test servers using the Metasploit Framework.', duration: '10h' },
+        { title: 'Module 3: Automated Password Cracking & Cryptographic Auditing: Using brute-force, dictionary attacks, and rainbow tables to expose weak authorization points.', duration: '10h' },
         { title: 'Module 4: Incident Response & Firewall Architecture Configuration: Setting up real defensive boundaries, reading logs, and repelling simulated real-time attacks.', duration: '10h' }
       ]
     },
@@ -200,16 +321,28 @@ async function seedCoursesAndModules() {
       level: 'Intermediate',
       duration: 'Self-Paced',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=600&q=80',
+      image: '/CEH.jpeg',
       featured: 1,
       segment: 'Asynchronous Certification Support Utilities',
       interactiveElement: 'Authenticated Student Document Portal',
       actionTrigger: 'Request Access Credentials via WhatsApp',
-      overview: 'The final stretch before an international certification exam can be the most intimidating phase of a student\'s educational journey. The CEH Premium Reference Library is a curated, secure archive structured specifically to eliminate examination anxiety and guarantee structural passing scores. This repository acts as an asynchronous knowledge bank, housing comprehensive student manuals, official documentation, step-by-step lab walkthrough notes, and real-world sample question banks. This resource vault ensures students never have to waste days searching for reference guidelines or second-guessing their test preparation metrics.',
+      overview: 'The final stretch before an international certification exam can be the most intimidating phase of a student\'s educational journey. The CEH Premium Reference Library is a curated, secure archive structured specifically to eliminate examination anxiety and guarantee structural passing scores. This repository acts as an asynchronous knowledge bank, housing comprehensive student manuals, official documentation, step-by-step lab walkthrough notes, and real-world sample question banks.',
       headline: 'Secure Your Passing Score. The Ultimate CEH Candidate Preparation Vault.',
       subtext: 'Instant access to verified reference manuals, mock examination structures, and step-by-step configuration manuals.',
       outcomes: 'The student goes into their international test date with absolute confidence, backed by a proven preparation routine that eliminates exam anxiety.',
       careerMilestone: 'Successfully navigating this final preparation vault directly results in securing the official globally recognized certification, moving candidates past HR filters and straight into technical interview stages.',
+      highlights: [
+        'Verified Exam Question Simulations',
+        'Complete Command Reference Manuals',
+        'Visual Lab Workthrough Blueprints',
+        'Architectural Blueprint Overviews'
+      ],
+      skills: [
+        'Exam Confidence',
+        'Command Quick-reference',
+        'Practical review',
+        'Architectural mapping'
+      ],
       modules: [
         { title: 'Module 1: Verified Exam Question Simulations: Deep practice with real-world formatting to understand the logical traps and core question styles of the test.', duration: '8h' },
         { title: 'Module 2: Complete Command Reference Manuals: A quick-reference cheat sheet for all essential Nmap switches, Metasploit parameters, and Linux terminal scripts.', duration: '10h' },
@@ -228,16 +361,29 @@ async function seedCoursesAndModules() {
       level: 'Advanced',
       duration: '8 Weeks',
       lessons: 4,
-      image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80',
+      image: '/artificailintelligence&pridictivelearnig.jpeg',
       featured: 1,
       segment: 'Next-Generation Machine Learning & Advanced Data Systems',
       interactiveElement: 'Live Code Execution Console Frame',
       actionTrigger: 'Apply for Next Artificial Intelligence Batch via WhatsApp',
-      overview: 'Artificial Intelligence is completely rewriting the rules of the global economy. Companies are no longer looking for workers who simply use AI tools—they are competing for engineers who can build, train, and deploy them. The Artificial Intelligence & Predictive Engineering course is a practical look into the software architectures driving this technological shift. Starting from foundational coding mechanics, students learn how to structure complex data streams, clean large analytical blocks, and build predictive machine learning models. This program cuts through the abstract mathematics to give students a direct, code-first understanding of how modern recommendation algorithms, predictive metrics, and automation layers are designed and integrated into business software.',
+      overview: 'Artificial Intelligence is completely rewriting the rules of the global economy. Companies are no longer looking for workers who simply use AI tools—they are competing for engineers who can build, train, and deploy them. The Artificial Intelligence & Predictive Engineering course is a practical look into the software architectures driving this technological shift. Starting from foundational coding mechanics, students learn how to structure complex data streams, clean large analytical blocks, and build predictive machine learning models.',
       headline: 'Don’t Just Prompt AI. Build It. Master the Architecture of Predictive Systems.',
       subtext: 'A comprehensive, code-first introduction to data manipulation, machine learning modules, and automated prediction arrays.',
       outcomes: 'The student finishes the program with a deep, practical understanding of machine learning pipelines. They leave with a personal portfolio of custom prediction engines and automation scripts built from scratch during the course.',
       careerMilestone: 'Graduates stand out in the crowded tech market, fully prepared to pursue high-value modern roles such as Junior AI Developer, Data Integration Engineer, Business Intelligence Analyst, and Automation Architect.',
+      highlights: [
+        'Foundational Syntax & Data Structuring',
+        'Predictive Data Modeling & Engineering Arrays',
+        'Training & Deploying Machine Learning Algorithms',
+        'Real-World Automation API Integrations'
+      ],
+      skills: [
+        'Data Cleaning',
+        'Predictive Classification',
+        'Model Deployment',
+        'API Integration',
+        'Python Scripting'
+      ],
       modules: [
         { title: 'Module 1: Foundational Syntax & Data Structuring: Mastering array manipulation, dictionary indexing, and building the pipelines needed to process raw data.', duration: '12h' },
         { title: 'Module 2: Predictive Data Modeling & Engineering Arrays: Using advanced data libraries to extract clean, reliable trends from messy datasets.', duration: '15h' },
@@ -260,8 +406,10 @@ async function seedCoursesAndModules() {
 
 async function seedProgress() {
   const progress = collection('progress');
-  const count = await progress.countDocuments();
-  if (count > 0) return;
+  
+  // Clear progress data to align with new courses re-seeding
+  await progress.deleteMany({});
+  await collection('counters').updateOne({ _id: 'progress' }, { $set: { seq: 0 } }, { upsert: true });
 
   console.log('Seeding progress...');
 
@@ -294,8 +442,10 @@ async function seedProgress() {
 
 async function seedBlogs() {
   const blogs = collection('blogs');
-  const count = await blogs.countDocuments();
-  if (count > 0) return;
+  
+  // Clear blogs so they are fresh
+  await blogs.deleteMany({});
+  await collection('counters').updateOne({ _id: 'blogs' }, { $set: { seq: 0 } }, { upsert: true });
 
   console.log('Seeding blogs...');
 
@@ -327,8 +477,10 @@ async function seedBlogs() {
 
 async function seedTimetable() {
   const timetable = collection('timetable');
-  const count = await timetable.countDocuments();
-  if (count > 0) return;
+  
+  // Clear timetable slots
+  await timetable.deleteMany({});
+  await collection('counters').updateOne({ _id: 'timetable' }, { $set: { seq: 0 } }, { upsert: true });
 
   console.log('Seeding timetable...');
 

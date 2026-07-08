@@ -1,44 +1,149 @@
 export const courses = [
   {
     id: 1,
-    title: "6-Month Master Diploma in Cybersecurity",
+    title: "CEH v12 Pro Course",
     category: "Cybersecurity",
-    instructor: "Dr. Sarah Mitchell",
+    instructor: "Alex Kumar",
     rating: 4.9,
     students: 12450,
-    price: 4999,
-    originalPrice: 9999,
-    level: "Intermediate",
-    duration: "6 months",
+    price: 25000,
+    originalPrice: 45000,
+    level: "Advanced",
+    duration: "40 hours (2 months)",
     lessons: 4,
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80",
+    image: "/CHEv12pro.jpeg",
     featured: true,
     modules: [
-      { id: 1, title: "Fundamentals of Network Architecture & Protocols", duration: "12h", completed: false },
-      { id: 2, title: "Ethical Hacking & Vulnerability Assessment", duration: "16h", completed: false },
-      { id: 3, title: "Cyber Threat Intelligence & Incident Response", duration: "15h", completed: false },
-      { id: 4, title: "Digital Forensics & Corporate Compliance", duration: "18h", completed: false }
+      { id: 1, title: "Advanced Network & Active Directory Security", duration: "10h", completed: false },
+      { id: 2, title: "Web Application & Wireless Exploitation", duration: "10h", completed: false },
+      { id: 3, title: "Privilege Escalation & Malware Analysis", duration: "10h", completed: false },
+      { id: 4, title: "Vulnerability Assessment & Penetration Testing", duration: "10h", completed: false }
     ]
   },
   {
     id: 2,
-    title: "Advanced Programming & Software Engineering",
-    category: "Programming",
+    title: "CHFI (Computer hacking forensic investigator)",
+    category: "Cybersecurity",
     instructor: "Alex Kumar",
     rating: 4.8,
     students: 9800,
-    price: 3999,
-    originalPrice: 7999,
+    price: 42000,
+    originalPrice: 75000,
     level: "Advanced",
-    duration: "6 months",
+    duration: "40 Hours (2 Months)",
     lessons: 4,
-    image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=600&q=80",
+    image: "/CHFI.jpeg",
     featured: true,
     modules: [
-      { id: 1, title: "Logic Building & Core Programming Paradigms", duration: "15h", completed: false },
-      { id: 2, title: "Data Structures & Algorithmic Efficiency", duration: "18h", completed: false },
-      { id: 3, title: "Full-Stack Architecture & Database Integration", duration: "20h", completed: false },
-      { id: 4, title: "Software Development Life Cycle (SDLC) & Git", duration: "12h", completed: false }
+      { id: 1, title: "Digital Evidence Collection & Chain of Custody", duration: "10h", completed: false },
+      { id: 2, title: "Windows & Linux Forensics", duration: "10h", completed: false },
+      { id: 3, title: "Disk, Memory, and Network Forensics", duration: "10h", completed: false },
+      { id: 4, title: "Mobile Device Forensics & Incident Response", duration: "10h", completed: false }
+    ]
+  },
+  {
+    id: 3,
+    title: "Python Learning Program",
+    category: "Programming",
+    instructor: "Alex Kumar",
+    rating: 4.8,
+    students: 1540,
+    price: 15000,
+    originalPrice: 28000,
+    level: "Beginner",
+    duration: "30 Hours",
+    lessons: 4,
+    image: "/python.jpeg",
+    featured: true,
+    modules: [
+      { id: 1, title: "Python Fundamentals & Data Structures", duration: "8h", completed: false },
+      { id: 2, title: "Object-Oriented Programming (OOP) & File Handling", duration: "8h", completed: false },
+      { id: 3, title: "APIs, JSON, and Modules", duration: "7h", completed: false },
+      { id: 4, title: "Automation Scripting & Real-World Projects", duration: "7h", completed: false }
+    ]
+  },
+  {
+    id: 4,
+    title: "Certified Ethical Hacker (CEHv12) — Theory Masterclass",
+    category: "Cybersecurity",
+    instructor: "Alex Kumar",
+    rating: 4.9,
+    students: 3450,
+    price: 7999,
+    originalPrice: 15999,
+    level: "Intermediate",
+    duration: "8 Weeks",
+    lessons: 4,
+    image: "/CEH.jpeg",
+    featured: true,
+    modules: [
+      { id: 1, title: "Footprinting, Reconnaissance, and Scanning", duration: "12h", completed: false },
+      { id: 2, title: "Vulnerability Analysis & System Hacking", duration: "15h", completed: false },
+      { id: 3, title: "Web Application & Wireless Exploitation", duration: "18h", completed: false },
+      { id: 4, title: "Perimeter Bypassing & Cloud Hijacking", duration: "14h", completed: false }
+    ]
+  },
+  {
+    id: 5,
+    title: "CEH V12 Basic course",
+    category: "Cybersecurity",
+    instructor: "Alex Kumar",
+    rating: 4.9,
+    students: 2180,
+    price: 25000,
+    originalPrice: 45000,
+    level: "Intermediate",
+    duration: "40 hours ( 2 months )",
+    lessons: 4,
+    image: "/CEHv12basic.jpeg",
+    featured: true,
+    modules: [
+      { id: 1, title: "Live Network Sniffing & Traffic Dissection", duration: "10h", completed: false },
+      { id: 2, title: "Active Penetration Testing & Exploit Generation", duration: "10h", completed: false },
+      { id: 3, title: "Automated Password Cracking & Cryptographic Auditing", duration: "10h", completed: false },
+      { id: 4, title: "Incident Response & Firewall Configuration", duration: "10h", completed: false }
+    ]
+  },
+  {
+    id: 6,
+    title: "CEH Premium Reference Library (Materials & Dumps Vault)",
+    category: "Cybersecurity",
+    instructor: "Alex Kumar",
+    rating: 4.7,
+    students: 4500,
+    price: 2999,
+    originalPrice: 5999,
+    level: "Intermediate",
+    duration: "Self-Paced",
+    lessons: 4,
+    image: "/CEH.jpeg",
+    featured: true,
+    modules: [
+      { id: 1, title: "Verified Exam Question Simulations", duration: "8h", completed: false },
+      { id: 2, title: "Complete Command Reference Manuals", duration: "10h", completed: false },
+      { id: 3, title: "Visual Lab Workthrough Blueprints", duration: "12h", completed: false },
+      { id: 4, title: "Architectural Blueprint Overviews", duration: "6h", completed: false }
+    ]
+  },
+  {
+    id: 7,
+    title: "Artificial Intelligence & Predictive Engineering",
+    category: "Programming",
+    instructor: "Alex Kumar",
+    rating: 4.9,
+    students: 1800,
+    price: 5999,
+    originalPrice: 11999,
+    level: "Advanced",
+    duration: "8 Weeks",
+    lessons: 4,
+    image: "/artificailintelligence&pridictivelearnig.jpeg",
+    featured: true,
+    modules: [
+      { id: 1, title: "Foundational Syntax & Data Structuring", duration: "12h", completed: false },
+      { id: 2, title: "Predictive Data Modeling & Engineering", duration: "15h", completed: false },
+      { id: 3, title: "Training & Deploying ML Algorithms", duration: "18h", completed: false },
+      { id: 4, title: "Real-World Automation API Integrations", duration: "10h", completed: false }
     ]
   }
 ];
